@@ -1,0 +1,43 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>VT Dairy Farm</title>
+    <link rel="icon" href="Images/VLogo.png" type="image/x-icon" title="vyshnavi.net" />
+     <meta name="viewport"  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="HandheldFriendly" content="True" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <script type="text/javascript">
+        $(function () {
+            var myVar = setInterval(function () { checkInternet() }, 2000);
+        });
+    </script>
+    <script type="text/javascript">
+        function checkInternet() {
+            var online = window.navigator.onLine;
+            if (!online) {
+                document.getElementById('txtInternet').innerHTML = "Please check your internet connection and try again";
+                $('#txtInternet').css('color', 'Red');
+            }
+            else {
+                document.getElementById('txtInternet').innerHTML = "Internet connection available";
+                $('#txtInternet').css('color', 'Green');
+            }
+        }
+</script>
+<%--<link rel="stylesheet" type="text/css" href="Styles/Style.css?v=5000" />--%>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <marquee ><span id="txtInternet" style="font-size:20px;font-weight:bold;"></span> </marquee>
+
+    <div id="header">
+            </div>
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿<div style="width: 100%; float: left; border: 1px solid #d6d6d6; border-radius: 5px 5px 5px 5px;
+    background-color: #FFFFEC" id="Reportviewer">
+    <table >
+        <tr>
+            <td>
+                From Date:
+            </td>
+            <td>
+                <input type="date" format="dd/MM/yyyy" id="fdate" name="fdate" class="txtDatesize">
+            </td>
+       <!-- </tr>
+        <tr>-->
+        <td>
+            To Date:
+        </td>
+        <td>
+            <input type="date" name="tdate" id="tdate" class="txtDatesize">
+        </td>
+        </tr>
+        <tr>
+        <td>
+        </td>
+        <td>
+            <input type="button" value="Show Info" id="btn_reports_show" onclick=" return get_OrdersInfo();" style="width:100%;height:40px;font-size:16px;"  class="ContinueButton"/>
+        </td>
+        </tr>
+    </table>
+    <div id="ReportDataViewer" >
+    </div>
+</div>

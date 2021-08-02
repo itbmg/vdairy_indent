@@ -1,0 +1,71 @@
+﻿body {
+}
+.auto
+{
+    border-radius:6px 6px 6px 6px;
+    height:30px;
+    border:1px solid gray;
+    width:100%;
+}
+
+.Dest
+{
+       border-radius:6px 6px 6px 6px;
+    height:30px;
+    border:1px solid gray;
+    width:100%;
+}
+
+.searchbutton
+{
+     height:40px;
+    width:100%;
+    background-color:Orange;
+    color:White;
+    font-size:18px;
+    cursor:pointer; 
+    border:1px solid gray;
+    border-radius:6px 6px 6px 6px;
+}
+     .ContinueButton
+{
+    background-color:DarkBlue;
+  color:White;
+ border-radius: 4px 4px 4px 4px;
+    border-style:none;
+ height:30px;
+ width:100%;
+ text-align:center;
+}
+.btnGetTicket
+{
+  width:100%;
+  background-color:Red;
+  color:White; 
+  height:30px;
+  border-radius:4px 4px 4px 4px ; 
+}
+.ticket
+{
+        border-radius:6px 6px 6px 6px;
+    height:30px;
+    border:1px solid gray;
+    width:100%;
+}
+
+.backclass
+{
+    display:block;
+    text-align:left;
+    background: url(../Images/Back.png) no-repeat 3px;
+    height:40px;
+    width:40px;
+}
+
+.homeclass
+{
+    display:block;
+    background: url(../Images/Home.png) no-repeat 3px;
+     height:40px;
+    width:40px;
+}

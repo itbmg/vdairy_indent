@@ -1,0 +1,72 @@
+﻿body 
+{
+    background-color: #fff;
+    font-size: 0.9em;
+    
+}
+.btnBookTickets
+{
+    height:40px;
+    width:97%;
+    font-size:18px;
+    cursor:pointer; 
+    border:1px solid gray;
+    border-radius:6px 6px 6px 6px;
+}
+.page
+{
+    width: auto;
+    margin: 0;
+    border-width: 0;
+}
+
+p
+{
+    margin-bottom: 0em;
+    line-height: 1.2em;
+}
+
+.header h1
+{
+    padding: 0 0 0 0.5em;
+    color: #FFFFFF;
+    line-height: 1.6em;
+    font-size: 1.4em;
+    width:100%;
+    text-align:center;
+}
+
+.title 
+{
+    float: none;
+    width:100%;
+    text-align:center;
+}
+
+.loginDisplay
+{
+    text-align: left;
+    padding: 0 0 0.5em 10px;
+    font-size: 0.8em;
+}
+
+.menu 
+{
+    font-size: 0.9em;
+}
+
+input.textEntry 
+{
+    width: auto;    
+}
+
+input.passwordEntry 
+{
+    border: 1px solid #ccc;
+    width: auto;    
+}
+
+div.accountInfo
+{
+    width: auto;
+}
