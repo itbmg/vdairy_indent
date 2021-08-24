@@ -417,8 +417,8 @@
                 DateTime Currentdate = VehicleDBMgr.GetTime(vdm.conn);
                 cmd.Parameters.AddWithValue("@IndentType", IndentType);
                 cmd.Parameters.AddWithValue("@RouteID", RouteID);
-                cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(Currentdate));
-                cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(Currentdate));
+                cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(Currentdate).AddDays(-1));
+                cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(Currentdate).AddDays(-1));
                 DataTable dtIndentData = vdm.SelectQuery(cmd).Tables[0];
                 List<IndentClass> Indentlist = new List<IndentClass>();
                 if (dtIndentData.Rows.Count > 0)
@@ -470,7 +470,7 @@
                     cmd.Parameters.AddWithValue("@IndentType", IndentType);
                     cmd.Parameters.AddWithValue("@RouteID", RouteID);
                     cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(dtIndentdate));
-                    cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(dtIndentdate));
+                    cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(dtIndentdate).AddDays(-1));
                     DataTable dtIndentData = vdm.SelectQuery(cmd).Tables[0];
                     List<IndentClass> Indentlist = new List<IndentClass>();
                     if (dtIndentData.Rows.Count > 0)
@@ -505,8 +505,8 @@
                     DateTime Currentdate = VehicleDBMgr.GetTime(vdm.conn);
                     cmd.Parameters.AddWithValue("@IndentType", IndentType);
                     cmd.Parameters.AddWithValue("@RouteID", RouteID);
-                    cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(Currentdate));
-                    cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(Currentdate));
+                    cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(Currentdate).AddDays(-1));
+                    cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(Currentdate).AddDays(-1));
                     DataTable dtIndentData = vdm.SelectQuery(cmd).Tables[0];
                     List<IndentClass> Indentlist = new List<IndentClass>();
                     if (dtIndentData.Rows.Count > 0)
@@ -3310,17 +3310,17 @@
                 cmd.Parameters.AddWithValue("@dispsno", RouteId);
                 cmd.Parameters.AddWithValue("@starttime", DateConverter.GetHighDate(dtDispDate));
                 DataTable dtinventoryopp = vdm.SelectQuery(cmd).Tables[0];
-                cmd = new MySqlCommand("SELECT invtras.TransType, invtras.FromTran, invtras.ToTran, invtras.Qty, invtras.DOE, invmaster.sno AS invsno, invmaster.InvName FROM  invtransactions12 as invtras INNER JOIN invmaster ON invtras.B_inv_sno = invmaster.sno WHERE ToTran=@ToTran  ORDER BY invtras.DOE");
+                cmd = new MySqlCommand("SELECT invtras.TransType, invtras.FromTran, invtras.ToTran, invtras.Qty, invtras.DOE, invmaster.sno AS invsno, invmaster.InvName FROM  invtransactions12 as invtras INNER JOIN invmaster ON invtras.B_inv_sno = invmaster.sno WHERE FromTran=@FromTran  ORDER BY invtras.DOE");
                 //cmd = new MySqlCommand("SELECT invtras.TransType, invtras.FromTran, invtras.ToTran, invtras.Qty, invtras.DOE, invmaster.sno AS invsno, invmaster.InvName FROM (SELECT TransType, FromTran, ToTran, Qty, EmpID, VarifyStatus, VTripId, VEmpId, Sno, B_inv_sno, DOE, VQty FROM invtransactions12 WHERE  (DOE BETWEEN @d1 AND @d2)  and ToTran=@ToTran) invtras INNER JOIN invmaster ON invtras.B_inv_sno = invmaster.sno ORDER BY invtras.DOE");
                 //cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate());
                 //cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(dtDispDate));
-                cmd.Parameters.AddWithValue("@ToTran", tripid);
+                cmd.Parameters.AddWithValue("@FromTran", tripid);
                 DataTable dtinventaryissued = vdm.SelectQuery(cmd).Tables[0];
 
-                cmd = new MySqlCommand("SELECT invtras.TransType, invtras.FromTran, invtras.ToTran, invtras.Qty, invtras.DOE, invmaster.sno AS invsno, invmaster.InvName FROM  invtransactions12 as invtras INNER JOIN invmaster ON invtras.B_inv_sno = invmaster.sno WHERE FromTran=@FromTran  ORDER BY invtras.DOE");
+                cmd = new MySqlCommand("SELECT invtras.TransType, invtras.FromTran, invtras.ToTran, invtras.Qty, invtras.DOE, invmaster.sno AS invsno, invmaster.InvName FROM  invtransactions12 as invtras INNER JOIN invmaster ON invtras.B_inv_sno = invmaster.sno WHERE ToTran=@ToTran  ORDER BY invtras.DOE");
                 //cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(dtDispDate));
                 //cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(dtDispDate));
-                cmd.Parameters.AddWithValue("@FromTran", tripid);
+                cmd.Parameters.AddWithValue("@ToTran", tripid);
                 DataTable dtinventaryreceived = vdm.SelectQuery(cmd).Tables[0];
 
                 cmd = new MySqlCommand("SELECT branchdata.BranchName, branchdata.sno, modifiedroutes.RouteName, modifiedroutes.Sno AS routesno FROM dispatch INNER JOIN dispatch_sub ON dispatch.sno = dispatch_sub.dispatch_sno INNER JOIN modifiedroutes ON dispatch_sub.Route_id = modifiedroutes.Sno INNER JOIN modifiedroutesubtable ON modifiedroutes.Sno = modifiedroutesubtable.RefNo INNER JOIN branchdata ON modifiedroutesubtable.BranchID = branchdata.sno WHERE (dispatch.sno = @routeid) AND (branchdata.flag = '1') AND (modifiedroutesubtable.EDate IS NULL) AND (modifiedroutesubtable.CDate <= @starttime) OR (dispatch.sno = @routeid) AND (branchdata.flag = '1') AND (modifiedroutesubtable.EDate > @starttime) AND (modifiedroutesubtable.CDate <= @starttime)");
@@ -3337,7 +3337,9 @@
                 Report.Columns.Add("Issued Crates", typeof(Double));
                 Report.Columns.Add("Received Crates", typeof(Double));
                 Report.Columns.Add("CB Crates", typeof(Double));
-                dtinventaryissued.Merge(dtinventaryreceived);
+                DataTable dtinventary_issued = new DataTable();
+                dtinventary_issued.Merge(dtinventaryissued);
+                dtinventary_issued.Merge(dtinventaryreceived);
                 foreach (DataRow drroutebrnch in dtbranch.Rows)
                 {
                     int Ctotcrates = 0;
@@ -3353,7 +3355,7 @@
                             int.TryParse(dropp["Qty"].ToString(), out oppcrates);
                         }
                     }
-                    foreach (DataRow dr in dtinventaryissued.Select("ToTran='" + drroutebrnch["sno"].ToString() + "' OR FromTran='" + drroutebrnch["sno"].ToString() + "'"))
+                    foreach (DataRow dr in dtinventary_issued.Select("ToTran='" + drroutebrnch["sno"].ToString() + "'"))
                     {
                         if (dr["TransType"].ToString() == "2")
                         {
@@ -3364,14 +3366,14 @@
                                 Dtotcrates += Dcrates;
                             }
                         }
-                        foreach (DataRow drr in dtinventaryissued.Select("ToTran='" + drroutebrnch["sno"].ToString() + "' OR FromTran='" + drroutebrnch["sno"].ToString() + "'"))
+                        foreach (DataRow drr in dtinventary_issued.Select("FromTran='" + drroutebrnch["sno"].ToString() + "'"))
                         {
-                            if (dr["TransType"].ToString() == "1" || dr["TransType"].ToString() == "3")
+                            if (drr["TransType"].ToString() == "1" || drr["TransType"].ToString() == "3")
                             {
-                                if (dr["invsno"].ToString() == "1")
+                                if (drr["invsno"].ToString() == "1")
                                 {
                                     int Ccrates = 0;
-                                    int.TryParse(dr["Qty"].ToString(), out Ccrates);
+                                    int.TryParse(drr["Qty"].ToString(), out Ccrates);
                                     Ctotcrates += Ccrates;
                                 }
                             }
@@ -5410,8 +5412,8 @@
                     {
                         cmd = new MySqlCommand("SELECT branchdata.BranchName, branchdata.sno, indents.IndentNo, indents.I_date FROM  branchroutesubtable INNER JOIN branchroutes ON branchroutesubtable.RefNo = branchroutes.Sno INNER JOIN branchdata ON branchroutesubtable.BranchID = branchdata.sno INNER JOIN indents ON branchdata.sno = indents.Branch_id WHERE (branchroutes.Sno = @RouteId) AND (indents.I_date between @d1 AND  @d2)");
                         cmd.Parameters.AddWithValue("@RouteId", RouteId);
-                        cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate));
-                        cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate));
+                        cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate).AddDays(-1));
+                        cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate).AddDays(-1));
                         dtbranches = vdm.SelectQuery(cmd).Tables[0];
                     }
                     else
@@ -5421,8 +5423,8 @@
                         //cmd = new MySqlCommand("SELECT branchdata.BranchName, branchdata.sno, indents.IndentNo, indents.I_date FROM  branchroutesubtable INNER JOIN branchroutes ON branchroutesubtable.RefNo = branchroutes.Sno INNER JOIN branchdata ON branchroutesubtable.BranchID = branchdata.sno INNER JOIN indents ON branchdata.sno = indents.Branch_id WHERE (branchroutes.Sno = @RouteId) AND (indents.I_date > @d1) AND (indents.I_date < @d2)");
                         cmd.Parameters.AddWithValue("@TripId", context.Session["TripdataSno"].ToString());
                         cmd.Parameters.AddWithValue("@dispatch_sno", RouteId);
-                        cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate));
-                        cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate));
+                        cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate).AddDays(-1));
+                        cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate).AddDays(-1));
                         dtbranches = vdm.SelectQuery(cmd).Tables[0];
                     }
                     if (dtbranches.Rows.Count > 0)
@@ -6904,8 +6906,8 @@
                     if (context.Session["Orders"] == null)
                     {
                         cmd = new MySqlCommand("SELECT productsdata.ProductName,indents_subtable.unitQty,indents_subtable.unitCost, productsdata.sno, indents_subtable.unitQty * indents_subtable.UnitCost AS Total, indents.IndentNo, productsdata.Qty AS RawQty , productsdata.Units FROM indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (indents.Branch_id = @bsno)  and (indents.IndentType = @IndentType) AND (indents.UserData_sno = @UserName) AND (indents.I_date between @d1 AND  @d2)");
-                        cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate));
-                        cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate));
+                        cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate).AddDays(-1));
+                        cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate).AddDays(-1));
                         cmd.Parameters.AddWithValue("@UserName", Username);
                         cmd.Parameters.AddWithValue("@IndentType", IndentType);
                         cmd.Parameters.AddWithValue("@bsno", b_bid);
@@ -6922,15 +6924,15 @@
                     cmd = new MySqlCommand("select IndentNo from Indents where Branch_id=@Branch_id AND (indents.I_date between @d1 AND  @d2) and (indents.IndentType = @IndentType)");
                     cmd.Parameters.AddWithValue("@Branch_id", BranchID);
                     cmd.Parameters.AddWithValue("@IndentType", IndentType);
-                    cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate));
-                    cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate));
+                    cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate).AddDays(-1));
+                    cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate).AddDays(-1));
                     DataTable dtIndent = vdm.SelectQuery(cmd).Tables[0];
 
                     cmd = new MySqlCommand("SELECT idoffer_indents, idoffers_assignment, salesoffice_id, route_id, agent_id, indent_date, indents_id, IndentType FROM offer_indents WHERE (agent_id = @Branch_id) AND (IndentType = @IndentType) AND (indent_date BETWEEN @d1 AND @d2)");
                     cmd.Parameters.AddWithValue("@Branch_id", BranchID);
                     cmd.Parameters.AddWithValue("@IndentType", IndentType);
-                    cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate));
-                    cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate));
+                    cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate).AddDays(-1));
+                    cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate).AddDays(-1));
                     DataTable dt_offerIndent = vdm.SelectQuery(cmd).Tables[0];
 
                     string ProductName = "";
@@ -6965,7 +6967,7 @@
                         {
                             cmd = new MySqlCommand("Update indents set I_date=@I_date, UserData_sno=@UserData_sno, Status=@Status,I_modifiedby=@I_modifiedby where Branch_id=@Branch_id and IndentNo=@IndentNo");
                             cmd.Parameters.AddWithValue("@Branch_id", BranchID);
-                            cmd.Parameters.AddWithValue("@I_date", ServerDateCurrentdate);
+                            cmd.Parameters.AddWithValue("@I_date", ServerDateCurrentdate.AddDays(-1));
                             cmd.Parameters.AddWithValue("@UserData_sno", Username);
                             cmd.Parameters.AddWithValue("@Status", "O");
                             cmd.Parameters.AddWithValue("@I_modifiedby", context.Session["UserSno"].ToString());
@@ -7121,7 +7123,7 @@
                                     cmd.Parameters.AddWithValue("@idoffers_assignment", idoffers_assignment);
                                     cmd.Parameters.AddWithValue("@salesoffice_id", context.Session["CsoNo"].ToString());
                                     cmd.Parameters.AddWithValue("@agent_id", BranchID);
-                                    cmd.Parameters.AddWithValue("@indent_date", ServerDateCurrentdate);
+                                    cmd.Parameters.AddWithValue("@indent_date", ServerDateCurrentdate.AddDays(-1));
                                     cmd.Parameters.AddWithValue("@IndentType", IndentType);
 
                                     cmd.Parameters.AddWithValue("@indents_id", BranchIndentNo);
@@ -7179,7 +7181,7 @@
                             cmd.Parameters.AddWithValue("@Branch_id", BranchID);
                             cmd.Parameters.AddWithValue("@TotalQty", Qty);
                             cmd.Parameters.AddWithValue("@TotalPrice", Price);
-                            cmd.Parameters.AddWithValue("@I_date", ServerDateCurrentdate);
+                            cmd.Parameters.AddWithValue("@I_date", ServerDateCurrentdate.AddDays(-1));
                             cmd.Parameters.AddWithValue("@UserData_sno", Username);
                             cmd.Parameters.AddWithValue("@Status", "O");
                             cmd.Parameters.AddWithValue("@PaymentStatus", 'A');
@@ -7209,7 +7211,7 @@
                                 cmd.Parameters.AddWithValue("@idoffers_assignment", idoffers_assignment);
                                 cmd.Parameters.AddWithValue("@salesoffice_id", context.Session["CsoNo"].ToString());
                                 cmd.Parameters.AddWithValue("@agent_id", BranchID);
-                                cmd.Parameters.AddWithValue("@indent_date", ServerDateCurrentdate);
+                                cmd.Parameters.AddWithValue("@indent_date", ServerDateCurrentdate.AddDays(-1));
                                 cmd.Parameters.AddWithValue("@indents_id", IndentNo);
                                 cmd.Parameters.AddWithValue("@IndentType", IndentType);
                                 long offerindentno = vdm.insertScalar(cmd);
@@ -7300,7 +7302,7 @@
                         cmd.Parameters.AddWithValue("@Branch_id", BranchID);
                         cmd.Parameters.AddWithValue("@TotalQty", Qty);
                         cmd.Parameters.AddWithValue("@TotalPrice", Price);
-                        cmd.Parameters.AddWithValue("@I_date", ServerDateCurrentdate);
+                        cmd.Parameters.AddWithValue("@I_date", ServerDateCurrentdate.AddDays(-1));
                         cmd.Parameters.AddWithValue("@UserData_sno", Username);
                         cmd.Parameters.AddWithValue("@Status", "O");
                         cmd.Parameters.AddWithValue("@IndentType", IndentType);
@@ -7326,7 +7328,7 @@
                             cmd.Parameters.AddWithValue("@idoffers_assignment", idoffers_assignment);
                             cmd.Parameters.AddWithValue("@salesoffice_id", context.Session["CsoNo"].ToString());
                             cmd.Parameters.AddWithValue("@agent_id", BranchID);
-                            cmd.Parameters.AddWithValue("@indent_date", ServerDateCurrentdate);
+                            cmd.Parameters.AddWithValue("@indent_date", ServerDateCurrentdate.AddDays(-1));
                             cmd.Parameters.AddWithValue("@IndentType", IndentType);
 
                             cmd.Parameters.AddWithValue("@indents_id", IndentNo);
@@ -9306,8 +9308,8 @@
                         {
                             //By sundeep cmd = new MySqlCommand("SELECT productsdata.ProductName,indents_subtable.unitQty,indents_subtable.unitCost, productsdata.sno, indents_subtable.unitQty * indents_subtable.UnitCost AS Total, indents.IndentNo, productsdata.Qty AS RawQty , productsdata.Units FROM indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (indents.Branch_id = @bsno)  and (indents.IndentType = @IndentType) AND (indents.UserData_sno = @UserName) AND (indents.I_date between @d1 AND  @d2)");
                             cmd = new MySqlCommand("SELECT productsdata.ProductName, productsdata.invqty, productsdata.UnitPrice, branchproducts_1.Rank,indents_subtable.unitQty,indents_subtable.tub_qty,indents_subtable.pkt_qty, indents_subtable.UnitCost, productsdata.sno, indents_subtable.unitQty * indents_subtable.UnitCost AS Total, indents.IndentNo, productsdata.Qty AS RawQty, productsdata.Units, branchproducts.unitprice AS BUnitPrice, branchproducts.branch_sno, branchmappingtable.SuperBranch, indents.I_date, branchproducts_1.unitprice AS SOUnitPrice, branchproducts.flag FROM indents INNER JOIN branchproducts ON indents.Branch_id = branchproducts.branch_sno INNER JOIN productsdata ON branchproducts.product_sno = productsdata.sno INNER JOIN branchmappingtable ON branchproducts.branch_sno = branchmappingtable.SubBranch INNER JOIN branchproducts branchproducts_1 ON branchmappingtable.SuperBranch = branchproducts_1.branch_sno AND  branchproducts.product_sno = branchproducts_1.product_sno LEFT OUTER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo AND branchproducts.product_sno = indents_subtable.Product_sno WHERE (indents.I_date BETWEEN @d1 AND @d2) AND (indents.Branch_id = @bsno) AND (indents.IndentType = @IndentType) ORDER BY branchproducts_1.Rank");
-                            cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(Currentdate));
-                            cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(Currentdate));
+                            cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(Currentdate).AddDays(-1));
+                            cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(Currentdate).AddDays(-1));
                             cmd.Parameters.AddWithValue("@UserName", Username);
                             cmd.Parameters.AddWithValue("@IndentType", IndentType);
                             cmd.Parameters.AddWithValue("@bsno", context.Request["bid"].ToString());
