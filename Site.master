@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>VT Dairy Farm</title>
+    <title>Vyshnavi Dairy</title>
     <link rel="icon" href="Images/VLogo.png" type="image/x-icon" title="vyshnavi.net" />
      <meta name="viewport"  content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="HandheldFriendly" content="True" />

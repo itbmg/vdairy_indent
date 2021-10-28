@@ -83,7 +83,7 @@
             <div class="title" style="text-align: center; width: 100%;">
                 <img src="Images/Vyshnavilogo.png" />
                 <br />
-                <span>Powered by VT Dairy</span>
+                <span>Powered by Vyshnavi Dairy</span>
             </div>
             <table style="border: 1px; height: 100%; width: 100%;">
                 <tr>
