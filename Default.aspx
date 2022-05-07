@@ -545,7 +545,9 @@
                 var totltr = parseFloat(totalpkts * unitQty);
                 var totltrvalue = parseFloat(totltr / 1000);
 
-                $(TubQty).closest("tr").find("#txtUnitQty").val(parseFloat(totltrvalue).toFixed(2));
+                //$(TubQty).closest("tr").find("#txtUnitQty").val(parseFloat(totltrvalue).toFixed(2));
+                $(TubQty).closest("tr").find("#txtQtypkts").val(parseFloat(totltrvalue).toFixed(2));
+
                 $(TubQty).closest("tr").find("#txtDupUnitQty").text(parseFloat(totltrvalue).toFixed(2))
                 $(TubQty).closest("tr").find("#txtQtypkts").val(parseFloat(totalpkts).toFixed(2));
                 var val = parseFloat(totltrvalue).toFixed(2);
@@ -564,11 +566,13 @@
                 var totltrvalue = parseFloat(totltr / 1000);
                 var totaltub = parseFloat(pktval / invQty);
 
-                $(PktQty).closest("tr").find("#txtUnitQty").val(parseFloat(totltrvalue).toFixed(2));
+                //$(PktQty).closest("tr").find("#txtUnitQty").val(parseFloat(totltrvalue).toFixed(2));
+                //$(PktQty).closest("tr").find("#txtQtypkts").val(parseFloat(totltrvalue).toFixed(2));
+
                 $(PktQty).closest("tr").find("#txtDupUnitQty").text(parseFloat(totltrvalue).toFixed(2))
                 $(PktQty).closest("tr").find("#txtTubQty").val(parseFloat(totaltub).toFixed(2));
                 var val = parseFloat(totltrvalue).toFixed(2);
-                OrderUnitChange(PktQty);
+                //OrderUnitChange(PktQty);
             }
         }
         var FinalAmount;
@@ -580,7 +584,9 @@
             var cnt = 0;
             $('.Unitqtyclass').each(function (i, obj) {
                 //var qtyclass = $(this).next.next.next.text();
-                var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+               // var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                var qtyclass = $(this).closest('tr').find('#txtQtypkts').val();
+
                 if (qtyclass == "" || qtyclass == "0") {
                 }
                 else {
@@ -611,7 +617,8 @@
             var cnt = 0;
             $('.OfferUnitqtyclass').each(function (i, obj) {
                 //var qtyclass = $(this).next.next.next.text();
-                var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                //var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                var qtyclass = $(this).closest('tr').find('#txtQtypkts').val();
                 if (qtyclass == "" || qtyclass == "0") {
                 }
                 else {
@@ -1000,7 +1007,8 @@
                 $(UnitQty).closest("tr").find("#txtOrderTotal").text(parseFloat(total).toFixed(2));
                 $('.Unitqtyclass').each(function (i, obj) {
                    // var qtyclass = $(this).val();
-                    var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                    //var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                    var qtyclass = $(this).closest('tr').find('#txtQtypkts').val();
 
                     if (qtyclass == "" || qtyclass == "0") {
                     }
@@ -1028,7 +1036,8 @@
             var Units = $(UnitQty).closest("tr").find("#hdnUnits").val();
             Rate = $(UnitQty).closest("tr").find("#txtOrderRate").text();
             var Units = $(UnitQty).closest("tr").find("#hdnUnits").val();
-            var unitqty = $(UnitQty).closest("tr").find("#txtUnitQty").val();
+            //var unitqty = $(UnitQty).closest("tr").find("#txtUnitQty").val();
+            var unitqty = $(UnitQty).closest("tr").find("#txtQtypkts").val();
             if (Units == "ml") {
                
                 totalqty = parseFloat(unitqty);
@@ -1052,7 +1061,8 @@
             cnt = 0;
             $('.Unitqtyclass').each(function (i, obj) {
                // var qtyclass = $(this).val();
-                var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                //var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                var qtyclass = $(this).closest('tr').find('#txtQtypkts').val();
 
                 if (qtyclass == "" || qtyclass == "0") {
                 }
@@ -1089,7 +1099,8 @@
                 $(UnitQty).closest("tr").find("#txtOfferOrderTotal").text(total);
                 $('.OfferUnitqtyclass').each(function (i, obj) {
                     // var qtyclass = $(this).val();
-                    var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                    //var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                    var qtyclass = $(this).closest('tr').find('#txtQtypkts').val();
 
                     if (qtyclass == "" || qtyclass == "0") {
                     }
@@ -1136,7 +1147,8 @@
             cnt = 0;
             $('.OfferUnitqtyclass').each(function (i, obj) {
                 // var qtyclass = $(this).val();
-                var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                //var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
+                var qtyclass = $(this).closest('tr').find('#txtQtypkts').val();
 
                 if (qtyclass == "" || qtyclass == "0") {
                 }
@@ -2806,22 +2818,24 @@
             var Orderdetails = new Array();
             $(rows).each(function (i, obj) {
                 var txtsno = $(this).find('#txtsno').text();
-                var txtUnitQty = $(this).find('#txtUnitQty').val();
+                //var txtUnitQty = $(this).find('#txtUnitQty').val();
+                var txtUnitQty = $(this).find('#txtQtypkts').val();
                 if (txtsno == "" || txtUnitQty == "") {
                 }
                 else {
-                    Orderdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnProductSno').val(), Product: $(this).find('#txtproduct').text(), Rate: $(this).find('#hdnRate').val(), Total: $(this).find('#txtOrderTotal').text(), Unitsqty: $(this).find('#txtUnitQty').val(), Qty: $(this).find('#hdnQty').val(), UnitCost: $(this).find('#txtOrderRate').text(), tubQty: $(this).find('#txtTubQty').val(), PktQty: $(this).find('#txtQtypkts').val(), Invqty: $(this).find('#hdninvQty').val(), UnitQty: $(this).find('#hdnUnitQty').val() });
+                    Orderdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnProductSno').val(), Product: $(this).find('#txtproduct').text(), Rate: $(this).find('#hdnRate').val(), Total: $(this).find('#txtOrderTotal').text(), Unitsqty: $(this).find('#txtQtypkts').val(), Qty: $(this).find('#hdnQty').val(), UnitCost: $(this).find('#txtOrderRate').text(), tubQty: $(this).find('#txtTubQty').val(), PktQty: $(this).find('#txtQtypkts').val(), Invqty: $(this).find('#hdninvQty').val(), UnitQty: $(this).find('#hdnUnitQty').val() });
                 }
             });
             var offerrows = $("#table_offerdetails tr:gt(0)");
             var OfferOrderdetails = new Array();
             $(offerrows).each(function (i, obj) {
                 var txtsno = $(this).find('#txtsno').text();
-                var txtUnitQty = $(this).find('#txtUnitQty').val();
+                //var txtUnitQty = $(this).find('#txtUnitQty').val();
+                var txtUnitQty = $(this).find('#txtQtypkts').val();
                 if (txtsno == "" || txtUnitQty == "") {
                 }
                 else {
-                    OfferOrderdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnofferProductSno').val(), Product: $(this).find('#txtproduct').text(), Rate: $(this).find('#hdnRate').val(), Total: $(this).find('#txtOfferOrderTotal').text(), Unitsqty: $(this).find('#txtUnitQty').val(), Qty: $(this).find('#offerhdnQty').val(), UnitCost: $(this).find('#txtofferOrderRate').text() });
+                    OfferOrderdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnofferProductSno').val(), Product: $(this).find('#txtproduct').text(), Rate: $(this).find('#hdnRate').val(), Total: $(this).find('#txtOfferOrderTotal').text(), Unitsqty: $(this).find('#txtQtypkts').val(), Qty: $(this).find('#offerhdnQty').val(), UnitCost: $(this).find('#txtofferOrderRate').text() });
                 }
             });
             var TotalPrice = parseFloat(totTotal) - parseFloat(FinalAmount);
@@ -3037,7 +3051,9 @@
                     txtOrderQty = $(this).find('#txtOrderQty').val();
                     txtorderunitRate = $(this).find('#txtOrderRate').text();
                     txtOrderTotal = $(this).find('#txtOrderTotal').text();
-                    orderunitqty = $(this).find('#txtUnitQty').val();
+                    //orderunitqty = $(this).find('#txtUnitQty').val();
+                    orderunitqty = $(this).find('#txtQtypkts').val();
+
                     txtUnitqty = $(this).find('#hdnUnitQty').val();
                     txtinvqty = $(this).find('#hdninvQty').val();
                     txtUnits = $(this).find('#hdnUnits').val();
@@ -3396,7 +3412,8 @@
         }
         function OrderLeftToRight(id) {
             var PrevQty = $(id).closest("tr").find('#txtPrvQty').text();
-            $(id).closest("tr").find('#txtUnitQty').val(PrevQty);
+            //$(id).closest("tr").find('#txtUnitQty').val(PrevQty);
+            $(id).closest("tr").find('#txtQtypkts').val(PrevQty);
             OrderUnitChange(PrevQty);
         }
         function DispTransferLeftToRight(id) {
