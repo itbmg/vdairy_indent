@@ -525,7 +525,7 @@
             $('#divHide').css('display', 'none');
             $('#divRouteOrder').css('display', 'none');
             $('#divFillScreen').css('display', 'block');
-            $('#divFillScreen').setTemplateURL('Orders10.htm');
+            $('#divFillScreen').setTemplateURL('Orders11.htm');
             $('#divFillScreen').processTemplate();
             if (bid != "") {
                 BranchChane();
@@ -572,7 +572,7 @@
                 $(PktQty).closest("tr").find("#txtDupUnitQty").text(parseFloat(totltrvalue).toFixed(2))
                 $(PktQty).closest("tr").find("#txtTubQty").val(parseFloat(totaltub).toFixed(2));
                 var val = parseFloat(totltrvalue).toFixed(2);
-                //OrderUnitChange(PktQty);
+                OrderUnitChange(PktQty);
             }
         }
         var FinalAmount;
@@ -3069,7 +3069,7 @@
             var Sno = parseInt(txtsno) + 1;
             var Prevqty = 0;
             DataTable.push({ sno: Sno, ProductCode: ProductName, Productsno: ProductSno, Qty: Qty, Rate: UnitPrice, invqty:invqty, Total: Total, Unitqty: UnitQty, Units: Units, orderunitqty: 0, orderunitRate: orderunitRate, Desciption: Description, PrevQty: Prevqty, Qtypkts: 0, tubQty: 0 });
-            $('#divFillScreen').setTemplateURL('Orders10.htm');
+            $('#divFillScreen').setTemplateURL('Orders11.htm');
             $('#divFillScreen').processTemplate(DataTable);
             getofferproducts();
             $('#hdnIndentNo').val(IndentNo);
