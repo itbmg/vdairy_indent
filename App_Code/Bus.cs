@@ -1615,7 +1615,7 @@
                         getOrderValue.orderunitRate = (float)TotalRate;
                         getOrderValue.PrevQty = 0;
                         //getOrderValue.orderunitqty = "";
-                        getOrderValue.Qtypkts = 0;
+                        getOrderValue.Qtypkts = "";
                         OrderList.Add(getOrderValue);
                     }
                 }
@@ -6884,6 +6884,7 @@
                     string Username = context.Session["userdata_sno"].ToString();
                     DateTime ServerDateCurrentdate = VehicleDBMgr.GetTime(vdm.conn);
                     var title1 = context.Request.Params[1];
+
                     Orders obj = js.Deserialize<Orders>(title1);
                     string b_bid = obj.BranchID;
                     string IndentType = obj.IndentType;
@@ -9353,7 +9354,7 @@
                                     }
                                     getOrderValue.PrevQty = offerPrevorderqty;
                                     //getOrderValue.orderunitqty = offerorderqty.ToString();
-                                    getOrderValue.Qtypkts = offerorderqty;
+                                    getOrderValue.Qtypkts = offerorderqty.ToString();
 
                                     OrderList.Add(getOrderValue);
                                 }
@@ -9376,7 +9377,7 @@
                             getOrderValue.orderunitRate = (float)TotalRate;
                             getOrderValue.PrevQty = 0;
                             //getOrderValue.orderunitqty = "";
-                            getOrderValue.Qtypkts = 0;
+                            getOrderValue.Qtypkts = "";
                             OrderList.Add(getOrderValue);
                         }
                         string respnceString = GetJson(OrderList);
@@ -9523,7 +9524,7 @@
                                             getOrderValue.orderunitRate = (float)TotalRate;
                                             getOrderValue.PrevQty = 0;
                                             //getOrderValue.orderunitqty = "";
-                                            getOrderValue.Qtypkts = 0;
+                                            getOrderValue.Qtypkts = "";
 
                                             OrderList.Add(getOrderValue);
                                         }
@@ -9541,14 +9542,14 @@
                                         getOrderValue.Unitqty = "";
                                         getOrderValue.invqty = "";
                                         getOrderValue.tubQty = 0;
-                                        getOrderValue.Qtypkts = 0;
+                                        getOrderValue.Qtypkts = "";
                                         float Rate = 0;
                                         float TotalRate = 0;
                                         getOrderValue.Rate = (float)Rate;
                                         getOrderValue.orderunitRate = (float)TotalRate;
                                         getOrderValue.PrevQty = 0;
                                         //getOrderValue.orderunitqty = "";
-                                        getOrderValue.Qtypkts = 0;
+                                        getOrderValue.Qtypkts = "";
                                         OrderList.Add(getOrderValue);
                                     }
                                     string respnceString = GetJson(OrderList);
@@ -9570,7 +9571,7 @@
                                         getOrderValue.tubQty = tubQty;
                                         double Qtypkts = 0;
                                        // double.TryParse(dr["pkt_qty"].ToString(), out Qtypkts);
-                                        getOrderValue.Qtypkts = Qtypkts; 
+                                        getOrderValue.Qtypkts = Qtypkts.ToString(); 
                                         float UnitQty = 0;
                                         if (dr["UnitQty"].ToString() == "")
                                         {
@@ -9661,7 +9662,7 @@
                                         getOrderValue.Unitqty = dr["RawQty"].ToString();
                                         getOrderValue.invqty = dr["invqty"].ToString();
                                         //getOrderValue.orderunitqty = "";
-                                        getOrderValue.Qtypkts = 0;
+                                        getOrderValue.Qtypkts = "";
                                         float PrevQty = 0;
                                         float.TryParse(dr["UnitQty"].ToString(), out PrevQty);
                                         getOrderValue.PrevQty = Math.Round(PrevQty, 2);
@@ -9692,7 +9693,7 @@
                                         getOrderValue.tubQty = tubQty;
                                         double Qtypkts = 0;
                                         double.TryParse(dr["pkt_qty"].ToString(), out Qtypkts);
-                                        getOrderValue.Qtypkts = Qtypkts;
+                                        getOrderValue.Qtypkts = Qtypkts.ToString();
                                         //qty=(float)dr["UnitQty"];
                                         if (dr["UnitQty"].ToString() != "")
                                         {
@@ -9774,7 +9775,7 @@
                                         getOrderValue.invqty = dr["invqty"].ToString();
                                         getOrderValue.Unitqty = dr["RawQty"].ToString();
                                         // getOrderValue.orderunitqty = dr["UnitQty"].ToString();
-                                        getOrderValue.Qtypkts = Qtypkts;
+                                        getOrderValue.Qtypkts = Qtypkts.ToString();
                                         if (dr["UnitQty"].ToString() != "")
                                         {
                                             OrderList.Add(getOrderValue);
@@ -9794,7 +9795,7 @@
                                             getOrderValue.tubQty = tubQty;
                                             double Qtypkts = 0;
                                             double.TryParse(dr["pkt_qty"].ToString(), out Qtypkts);
-                                            getOrderValue.Qtypkts = Qtypkts;
+                                            getOrderValue.Qtypkts = Qtypkts.ToString();
                                             //qty=(float)dr["UnitQty"];
                                             if (dr["UnitQty"].ToString() != "")
                                             {
@@ -9877,7 +9878,7 @@
                                             getOrderValue.invqty = dr["invqty"].ToString();
                                             getOrderValue.Unitqty = dr["RawQty"].ToString();
                                             //getOrderValue.orderunitqty = dr["UnitQty"].ToString();
-                                            getOrderValue.Qtypkts = Qtypkts;
+                                            getOrderValue.Qtypkts = Qtypkts.ToString();
                                             if (dr["UnitQty"].ToString() != "")
                                             {
                                                 OrderList.Add(getOrderValue);
@@ -9902,14 +9903,14 @@
                                     getOrderValue.Units = "";
                                     getOrderValue.Unitqty = "";
                                     getOrderValue.tubQty = 0;
-                                    getOrderValue.Qtypkts = 0;
+                                    getOrderValue.Qtypkts = "";
                                     float Rate = 0;
                                     float TotalRate = 0;
                                     getOrderValue.Rate = (float)Rate;
                                     getOrderValue.orderunitRate = (float)TotalRate;
                                     getOrderValue.PrevQty = 0;
                                     //getOrderValue.orderunitqty = "";
-                                    getOrderValue.Qtypkts = 0;
+                                    getOrderValue.Qtypkts = "";
                                     OrderList.Add(getOrderValue);
                                     string respnceString = GetJson(OrderList);
                                     context.Response.Write(respnceString);
@@ -10220,7 +10221,7 @@
             public double PrevQty { set; get; }
             public double returnqty { set; get; }
             public double tubQty { set; get; }
-            public double Qtypkts { set; get; }
+            public string Qtypkts { set; get; }
         }
         public class redirecturl
         {
