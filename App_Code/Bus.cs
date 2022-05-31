@@ -6947,8 +6947,23 @@
                     cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate));
                     cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate));
                     DataTable dt_offerIndent = vdm.SelectQuery(cmd).Tables[0];
-
+                    DataTable categorys = new DataTable();
+                    if (context.Session["getbranchcategorynames"] == null)
+                    {
+                        cmd = new MySqlCommand("SELECT products_category.Categoryname, products_subcategory.SubCatName,products_subcategory.category_sno,products_subcategory.sno, productsdata.*  FROM productsdata RIGHT OUTER JOIN products_subcategory ON productsdata.SubCat_sno = products_subcategory.sno RIGHT OUTER JOIN products_category ON products_subcategory.category_sno = products_category.sno WHERE (products_category.flag<>0) AND (products_subcategory.Flag<>0)");
+                        categorys = vdm.SelectQuery(cmd).Tables[0];
+                        context.Session["getbranchcategorynames"] = categorys;
+                    }
+                    else
+                    {
+                        categorys = (DataTable)context.Session["getbranchcategorynames"];
+                    }
                     string ProductName = "";
+                    string ProductNameMD = "";
+                    string ProductNameCD = "";
+                    string ProductNameCDAND = "";
+                    string ProductNameBD = "";
+                    string ProductNameBDAND = "";
                     string OfferProductName = "OFFER PRODUCTS\r\n";
                     double TotalQty = 0;
                     double OfferTotalQty = 0;
@@ -6958,7 +6973,43 @@
                         {
                             float UnitQty = 0;
                             float.TryParse(o.Unitsqty, out UnitQty);
-                            ProductName += o.Product + "=" + Math.Round(UnitQty, 2) + ";\r\n";
+                            DataRow[] drcategeorysno = categorys.Select("sno1='" + o.Productsno.ToString() + "'");
+                            if (drcategeorysno.Length != 0)
+                            {
+                                if (drcategeorysno[0][2].ToString() == "1")
+                                {
+                                    if (ProductNameMD.Length > 30)
+                                    {
+                                        ProductName += o.Product + "=" + Math.Round(UnitQty, 2) + ";\r\n";
+                                    }
+                                    else
+                                    {
+                                        ProductNameMD += o.Product + "=" + Math.Round(UnitQty, 2) + ";\r\n";
+                                    }
+                                }
+                                if (drcategeorysno[0][2].ToString() == "2")
+                                {
+                                    if (ProductNameCDAND.Length > 30)
+                                    {
+                                        ProductNameCD += o.Product + "=" + Math.Round(UnitQty, 2) + ";\r\n";
+                                    }
+                                    else
+                                    {
+                                        ProductNameCDAND += o.Product + "=" + Math.Round(UnitQty, 2) + ";\r\n";
+                                    }
+                                }
+                                if (drcategeorysno[0][2].ToString() != "1" && drcategeorysno[0][2].ToString() != "2")
+                                {
+                                    if (ProductNameBDAND.Length > 30)
+                                    {
+                                        ProductNameBD += o.Product + "=" + Math.Round(UnitQty, 2) + "\r\n";
+                                    }
+                                    else
+                                    {
+                                        ProductNameBDAND += o.Product + "=" + Math.Round(UnitQty, 2) + "\r\n";
+                                    }
+                                }
+                            }
                             TotalQty += Math.Round(UnitQty, 2);
                         }
                     }
@@ -7448,41 +7499,14 @@
                     {
                         string Date = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
                         WebClient client = new WebClient();
-                        string companyname = "\r\nPowered By BMG";
-                        string BranchSno = context.Session["CsoNo"].ToString();
-                        if (BranchSno == "10425" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "11079" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
-                        {
-                            //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=Vys@2021&from=VYSSAL&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20,%20Your%20indent%20for%20Date%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&type=1&template_id='1407161120176110551'";
-                            //Stream data = client.OpenRead(baseurl);
-                            //StreamReader reader = new StreamReader(data);
-                            //string ResponseID = reader.ReadToEnd();
-                            //data.Close();
-                            //reader.Close();
-                        }
-                        else
-                        {
-                            //    string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=Vys@2021&from=VYSSAL&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20,%20Your%20indent%20for%20Date%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&type=1&template_id='1407161120176110551'";
-                            //    Stream data = client.OpenRead(baseurl);
-                            //    StreamReader reader = new StreamReader(data);
-                            //    string ResponseID = reader.ReadToEnd();
-                            //    data.Close();
-                            //reader.Close();
-                        }
-
-                        string message = " Dear " + BranchName + " Your indent for Date " + Date + " , " + ProductName + "Total Ltrs =" + TotalQty + " ";
-
-                        // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
-                        cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
-                        cmd.Parameters.AddWithValue("@agentid", BranchID);
-                        cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
-                        //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
-                        cmd.Parameters.AddWithValue("@msg", message);
-                        cmd.Parameters.AddWithValue("@mobileno", phonenumber);
-                        cmd.Parameters.AddWithValue("@msgtype", "Indent");
-                        cmd.Parameters.AddWithValue("@branchname", BranchName);
-                        cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
-                        vdm.insert(cmd);
+                        string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=Vys@2021&from=VYSSAL&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20,%20Your%20indent%20for%20Date%20" + Date + "%20,Milk%20" + ProductNameMD + "%20AND%20" + ProductName + "%20,%20Curd%20" + ProductNameCD + "%20AND%20" + ProductNameCDAND  + "%20,%20Others%20" + ProductNameBD + "%20AND%20" + ProductNameBDAND + "%20,%20Total =" + TotalQty + "&type=1&template_id=1407164845165472381";
+                        Stream data = client.OpenRead(baseurl);
+                        StreamReader reader = new StreamReader(data);
+                        string ResponseID = reader.ReadToEnd();
+                        data.Close();
+                        reader.Close();
                     }
+
                     var jsonSerializer = new JavaScriptSerializer();
                     var jsonString = String.Empty;
                     context.Request.InputStream.Position = 0;
