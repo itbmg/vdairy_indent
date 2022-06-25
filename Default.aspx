@@ -525,7 +525,7 @@
             $('#divHide').css('display', 'none');
             $('#divRouteOrder').css('display', 'none');
             $('#divFillScreen').css('display', 'block');
-            $('#divFillScreen').setTemplateURL('Orders11.htm');
+            $('#divFillScreen').setTemplateURL('Orders12.htm');
             $('#divFillScreen').processTemplate();
             if (bid != "") {
                 BranchChane();
@@ -2823,7 +2823,7 @@
                 if (txtsno == "" || txtUnitQty == "") {
                 }
                 else {
-                    Orderdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnProductSno').val(), Product: $(this).find('#txtproduct').text(), Rate: $(this).find('#hdnRate').val(), Total: $(this).find('#txtOrderTotal').text(), Unitsqty: $(this).find('#txtQtypkts').val(), Qty: $(this).find('#hdnQty').val(), UnitCost: $(this).find('#txtOrderRate').text(), tubQty: $(this).find('#txtTubQty').val(), PktQty: $(this).find('#txtQtypkts').val(), Invqty: $(this).find('#hdninvQty').val(), UnitQty: $(this).find('#hdnUnitQty').val() });
+                    Orderdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnProductSno').val(),  Rate: $(this).find('#hdnRate').val(), Total: $(this).find('#txtOrderTotal').text(), Unitsqty: $(this).find('#txtQtypkts').val(), Qty: $(this).find('#hdnQty').val(), UnitCost: $(this).find('#txtOrderRate').text(), tubQty: $(this).find('#txtTubQty').val(), PktQty: $(this).find('#txtQtypkts').val(), Invqty: $(this).find('#hdninvQty').val(), UnitQty: $(this).find('#hdnUnitQty').val() });
                 }
             });
             var offerrows = $("#table_offerdetails tr:gt(0)");
@@ -3069,7 +3069,7 @@
             var Sno = parseInt(txtsno) + 1;
             var Prevqty = 0;
             DataTable.push({ sno: Sno, ProductCode: ProductName, Productsno: ProductSno, Qty: Qty, Rate: UnitPrice, invqty:invqty, Total: Total, Unitqty: UnitQty, Units: Units, orderunitqty: 0, orderunitRate: orderunitRate, Desciption: Description, PrevQty: Prevqty, Qtypkts: 0, tubQty: 0 });
-            $('#divFillScreen').setTemplateURL('Orders11.htm');
+            $('#divFillScreen').setTemplateURL('Orders12.htm');
             $('#divFillScreen').processTemplate(DataTable);
             getofferproducts();
             $('#hdnIndentNo').val(IndentNo);
