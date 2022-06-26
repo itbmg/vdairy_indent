@@ -2491,6 +2491,7 @@
                                 context.Session["LevelType"] = dt.Rows[0]["LevelType"].ToString();
                                 context.Session["AssignDate"] = dt.Rows[0]["AssignDate"].ToString();
                                 context.Session["I_Date"] = dt.Rows[0]["I_Date"].ToString();
+                                context.Session["DispDate"] = dt.Rows[0]["I_Date"].ToString();
                                 int count = 0;
                                 string Routes = "";
                                 string[] routearray = new String[0] { };
