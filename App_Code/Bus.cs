@@ -7500,7 +7500,7 @@
                     {
                         string Date = DateTime.Now.AddDays(1).ToString("dd/MM/yyyy");
                         WebClient client = new WebClient();
-                        string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=Vys@2021&from=VYSSAL&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20,%20Your%20indent%20for%20Date%20" + Date + "%20,Milk%20" + ProductNameMD + "%20AND%20" + ProductName + "%20,%20Curd%20" + ProductNameCD + "%20AND%20" + ProductNameCDAND  + "%20,%20Others%20" + ProductNameBD + "%20AND%20" + ProductNameBDAND + "%20,%20Total =" + TotalQty + "&type=1&template_id=1407164845165472381";
+                        string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=Vys@2021&from=VYSSAL&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20,%20Your%20indent%20for%20Date%20" + Date + "%20,Milk%20" + ProductNameMD + "%20AND%20" + ProductName + "%20,%20Curd%20" + ProductNameCD + "%20AND%20" + ProductNameCDAND  + "%20,%20Others%20" + ProductNameBD + "%20AND%20" + ProductNameBDAND + "%20,%20Total =" + TotalQty + "&type=1&template_id=1407165976493597741";
                         Stream data = client.OpenRead(baseurl);
                         StreamReader reader = new StreamReader(data);
                         string ResponseID = reader.ReadToEnd();
