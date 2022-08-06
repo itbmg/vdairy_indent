@@ -5918,24 +5918,39 @@
                     DateTime ServerDateCurrentdate = VehicleDBMgr.GetTime(vdm.conn);
                     List<Orderclass> OrderList = new List<Orderclass>();
                     string SalesType = context.Session["Salestype"].ToString();
+                    string IndentType = context.Request["IndentType"];
+                    if (IndentType == "")
+                    {
+                        IndentType = context.Session["IndentType"].ToString();
+                    }
+                    if (IndentType == "")
+                    {
+                        IndentType = "Indent1";
+                    }
+                    if (IndentType == null)
+                    {
+                        IndentType = "Indent1";
+                    }
                     if (SalesType == "Plant")
                     {
                         string RouteID = context.Request["RouteID"];
                         string DispDate = context.Session["DispDate"].ToString();
                         DateTime dtdispDate = Convert.ToDateTime(DispDate);
                         //cmd = new MySqlCommand("SELECT indents.TotalQty,indents_subtable.Sno, indents_subtable.unitQty,indents_subtable.UnitCost, indents_subtable.Product_sno, productsdata.ProductName, indents_subtable.Status, indents_subtable.Cost as unitprice, productsdata.sno, indents.IndentNo FROM indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (indents.Branch_id = @bsno) AND (indents_subtable.Status <> 'Delivered') and (indents_subtable.Status <> 'Cancelled' ) AND (indents.I_date > @d1) AND (indents.I_date < @d2) ");
-                        cmd = new MySqlCommand("SELECT indents.I_date,indents_subtable.Sno,indents_subtable.LeakQty,indents_subtable.DeliveryQty, indents_subtable.unitQty,indents_subtable.UnitCost, indents_subtable.Product_sno, productsdata.ProductName, productsdata.Units, indents_subtable.Status,  productsdata.sno, indents.IndentNo FROM indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (indents.Branch_id = @bsno)  AND (indents.I_date between @d1 AND  @d2) group By productsdata.ProductName ");
+                        cmd = new MySqlCommand("SELECT indents.I_date,indents_subtable.Sno,indents_subtable.LeakQty,indents_subtable.DeliveryQty, indents_subtable.unitQty,indents_subtable.UnitCost, indents_subtable.Product_sno, productsdata.ProductName, productsdata.Units, indents_subtable.Status,  productsdata.sno, indents.IndentNo FROM indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (indents.Branch_id = @bsno)  AND (indents.I_date between @d1 AND  @d2) and (indents.IndentType=@IndentType) group By productsdata.ProductName ");
                         cmd.Parameters.AddWithValue("@UserName", Username);
+                        cmd.Parameters.AddWithValue("@IndentType", IndentType);
                         cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(dtdispDate));
                         cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(dtdispDate));
                         cmd.Parameters.AddWithValue("@bsno", context.Request["bid"].ToString());
                         DataTable dtBranch = vdm.SelectQuery(cmd).Tables[0];
                         //cmd = new MySqlCommand("SELECT SUM(indents_subtable.unitQty) AS Iqty, indents_subtable.Product_sno, productsdata.ProductName FROM indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno INNER JOIN branchroutesubtable ON indents.Branch_id = branchroutesubtable.BranchID INNER JOIN branchroutes ON branchroutesubtable.RefNo = branchroutes.Sno WHERE (indents.I_date > @d1) AND (indents.I_date < @d2) AND (branchroutes.Sno = @RouteId) AND (indents_subtable.Status <> 'Delivered') GROUP BY productsdata.ProductName, branchroutes.Sno");
                         //cmd = new MySqlCommand(" SELECT SUM(indents_subtable.unitQty) AS Iqty, indents_subtable.Product_sno, productsdata.ProductName FROM dispatch_sub INNER JOIN dispatch ON dispatch_sub.dispatch_sno = dispatch.sno INNER JOIN indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno INNER JOIN branchroutesubtable ON indents.Branch_id = branchroutesubtable.BranchID INNER JOIN branchroutes ON branchroutesubtable.RefNo = branchroutes.Sno ON dispatch_sub.dispatch_sno = branchroutes.Sno WHERE (indents.I_date > @d1) AND (indents.I_date < @d2) AND (indents_subtable.Status <> 'Delivered') AND (dispatch.sno = @dispatchsno)GROUP BY productsdata.ProductName");
-                        cmd = new MySqlCommand(" SELECT SUM(indents_subtable.unitQty) AS Iqty, indents_subtable.Product_sno, productsdata.ProductName, branchroutes.RouteName FROM dispatch_sub INNER JOIN dispatch ON dispatch_sub.dispatch_sno = dispatch.sno INNER JOIN branchroutes ON dispatch_sub.Route_id = branchroutes.Sno INNER JOIN branchroutesubtable ON branchroutes.Sno = branchroutesubtable.RefNo INNER JOIN indents ON branchroutesubtable.BranchID = indents.Branch_id INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (dispatch.sno = @dispatchsno) AND (indents.I_date between @d1 AND  @d2) GROUP BY productsdata.ProductName");
+                        cmd = new MySqlCommand(" SELECT SUM(indents_subtable.unitQty) AS Iqty, indents_subtable.Product_sno, productsdata.ProductName, branchroutes.RouteName FROM dispatch_sub INNER JOIN dispatch ON dispatch_sub.dispatch_sno = dispatch.sno INNER JOIN branchroutes ON dispatch_sub.Route_id = branchroutes.Sno INNER JOIN branchroutesubtable ON branchroutes.Sno = branchroutesubtable.RefNo INNER JOIN indents ON branchroutesubtable.BranchID = indents.Branch_id INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (dispatch.sno = @dispatchsno) AND (indents.I_date between @d1 AND  @d2) and (indents.IndentType=@IndentType) GROUP BY productsdata.ProductName");
                         cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(dtdispDate));
                         cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(dtdispDate));
                         cmd.Parameters.AddWithValue("@dispatchsno", RouteID);
+                        cmd.Parameters.AddWithValue("@IndentType", IndentType);
                         DataTable dtDailyIndent = vdm.SelectQuery(cmd).Tables[0];
                         //cmd = new MySqlCommand("SELECT branchproducts.product_sno, productsdata.ProductName, branchproducts.manufact_remaining_qty as RemainQty FROM branchproducts INNER JOIN branchmappingtable ON branchproducts.branch_sno = branchmappingtable.SuperBranch INNER JOIN productsdata ON branchproducts.product_sno = productsdata.sno WHERE (branchmappingtable.SuperBranch = @SuperBranch)  GROUP BY branchproducts.product_sno, productsdata.ProductName ");
 
@@ -10046,7 +10061,8 @@
                                 string DispDate = context.Session["I_Date"].ToString();
                                 DateTime dtdispDate = Convert.ToDateTime(DispDate);
                                 //cmd = new MySqlCommand("SELECT indents.TotalQty,indents_subtable.Sno, indents_subtable.unitQty,indents_subtable.UnitCost, indents_subtable.Product_sno, productsdata.ProductName, indents_subtable.Status, indents_subtable.Cost as unitprice, productsdata.sno, indents.IndentNo FROM indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (indents.Branch_id = @bsno) AND (indents_subtable.Status <> 'Delivered') and (indents_subtable.Status <> 'Cancelled' ) AND (indents.I_date > @d1) AND (indents.I_date < @d2) ");
-                                cmd = new MySqlCommand("SELECT indents.I_date,indents_subtable.Sno,indents_subtable.LeakQty,indents_subtable.DeliveryQty, indents_subtable.unitQty,indents_subtable.UnitCost, indents_subtable.Product_sno, productsdata.ProductName, indents_subtable.Status,  productsdata.sno, indents.IndentNo FROM indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (indents.Branch_id = @bsno)  AND (indents.I_date between @d1 AND  @d2) group By productsdata.ProductName ORDER BY productsdata.Rank ");
+                                cmd = new MySqlCommand("SELECT indents.I_date,indents_subtable.Sno,indents_subtable.LeakQty,indents_subtable.DeliveryQty, indents_subtable.unitQty,indents_subtable.UnitCost, indents_subtable.Product_sno, productsdata.ProductName, indents_subtable.Status,  productsdata.sno, indents.IndentNo FROM indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (indents.IndentType=@IndentType) AND (indents.Branch_id = @bsno)  AND (indents.I_date between @d1 AND  @d2) group By productsdata.ProductName ORDER BY productsdata.Rank ");
+                                cmd.Parameters.AddWithValue("@IndentType", IndentType);
                                 cmd.Parameters.AddWithValue("@UserName", Username);
                                 cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(dtdispDate));
                                 cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(dtdispDate));
