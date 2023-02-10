@@ -618,7 +618,7 @@
             $('.OfferUnitqtyclass').each(function (i, obj) {
                 //var qtyclass = $(this).next.next.next.text();
                 //var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
-                var qtyclass = $(this).closest('tr').find('#txtQtypkts').val();
+                var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
                 if (qtyclass == "" || qtyclass == "0") {
                 }
                 else {
@@ -1148,7 +1148,7 @@
             $('.OfferUnitqtyclass').each(function (i, obj) {
                 // var qtyclass = $(this).val();
                 //var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
-                var qtyclass = $(this).closest('tr').find('#txtQtypkts').val();
+                var qtyclass = $(this).closest('tr').find('#txtUnitQty').val();
 
                 if (qtyclass == "" || qtyclass == "0") {
                 }
@@ -1171,6 +1171,7 @@
                 total += parseFloat($(this).text());
             });
             document.getElementById('txt_offertotal').innerHTML = parseFloat(total).toFixed(2);
+            OffercalcTot();
         }
         function FillInventory() {
             var data = { 'op': 'GetInventoryNames' };
@@ -1522,7 +1523,7 @@
                 }
                 if (msg) {
                     if (msg[0].sno != "") {
-                        $('#divoffers').setTemplateURL('Offers.htm');
+                        $('#divoffers').setTemplateURL('Offers1.htm');
                         $('#divoffers').processTemplate(msg);
 
                         OffercalcTot();
