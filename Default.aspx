@@ -2836,7 +2836,7 @@
                 if (txtsno == "" || txtUnitQty == "") {
                 }
                 else {
-                    OfferOrderdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnofferProductSno').val(), Product: $(this).find('#txtproduct').text(), Rate: $(this).find('#hdnRate').val(), Total: $(this).find('#txtOfferOrderTotal').text(), Unitsqty: $(this).find('#txtQtypkts').val(), Qty: $(this).find('#offerhdnQty').val(), UnitCost: $(this).find('#txtofferOrderRate').text() });
+                    OfferOrderdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnofferProductSno').val(), Product: $(this).find('#txtproduct').text(), Rate: $(this).find('#hdnRate').val(), Total: $(this).find('#txtOfferOrderTotal').text(), Unitsqty: $(this).find('#txtUnitQty').val(), Qty: $(this).find('#offerhdnQty').val(), UnitCost: $(this).find('#txtofferOrderRate').text() });
                 }
             });
             var TotalPrice = parseFloat(totTotal) - parseFloat(FinalAmount);

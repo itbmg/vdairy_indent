@@ -7034,7 +7034,7 @@
                         if (o.Unitsqty != "0")
                         {
                             float UnitQty = 0;
-                            float.TryParse(o.Qty, out UnitQty);
+                            float.TryParse(o.Unitsqty, out UnitQty);
                             OfferProductName += o.Product + "=" + Math.Round(UnitQty, 2) + ";\r\n";
                             OfferTotalQty += Math.Round(UnitQty, 2);
                         }
@@ -7155,7 +7155,7 @@
                                         if (o.Productsno != null)
                                         {
                                             double unitQty = 0;
-                                            double.TryParse(o.Qty, out unitQty);
+                                            double.TryParse(o.Unitsqty, out unitQty);
                                             unitQty = Math.Round(unitQty, 2);
                                             cmd = new MySqlCommand("UPDATE offer_indents_sub SET offer_indent_qty = @offer_indent_qty WHERE (idoffer_indents = @idoffer_indents) AND (product_id = @product_id)");
                                             cmd.Parameters.AddWithValue("@offer_indent_qty", unitQty);
@@ -7216,7 +7216,7 @@
                                         if (o.Productsno != null)
                                         {
                                             double unitQty = 0;
-                                            double.TryParse(o.Qty, out unitQty);
+                                            double.TryParse(o.Unitsqty, out unitQty);
                                             unitQty = Math.Round(unitQty, 2);
                                             //cmd = new MySqlCommand("UPDATE offer_indents_sub SET offer_indent_qty = offer_indent_qty + @offer_indent_qty WHERE (idoffer_indents = @idoffer_indents) AND (product_id = @product_id)");
                                             //cmd.Parameters.AddWithValue("@offer_indent_qty", unitQty);
@@ -7346,7 +7346,7 @@
                                 if (o.Productsno != null)
                                 {
                                     double unitQty = 0;
-                                    double.TryParse(o.Qty, out unitQty);
+                                    double.TryParse(o.Unitsqty, out unitQty);
                                     unitQty = Math.Round(unitQty, 2);
                                     //cmd = new MySqlCommand("UPDATE offer_indents_sub SET offer_indent_qty = offer_indent_qty + @offer_indent_qty WHERE (idoffer_indents = @idoffer_indents) AND (product_id = @product_id)");
                                     //cmd.Parameters.AddWithValue("@offer_indent_qty", unitQty);
@@ -7461,7 +7461,7 @@
                             if (o.Productsno != null)
                             {
                                 double unitQty = 0;
-                                double.TryParse(o.Qty, out unitQty);
+                                double.TryParse(o.Unitsqty, out unitQty);
                                 unitQty = Math.Round(unitQty, 2);
                                 //cmd = new MySqlCommand("UPDATE offer_indents_sub SET offer_indent_qty = offer_indent_qty + @offer_indent_qty WHERE (idoffer_indents = @idoffer_indents) AND (product_id = @product_id)");
                                 //cmd.Parameters.AddWithValue("@offer_indent_qty", unitQty);
