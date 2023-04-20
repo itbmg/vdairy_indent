@@ -815,7 +815,7 @@
                                 float Lqty = 0;
                                 float.TryParse(o.LeakQty, NumberStyles.Number, CultureInfo.CurrentCulture.NumberFormat, out Lqty);
                                 float TQty = Aqty - Eqty;
-                                if (TQty >= 1)
+                                if (TQty >= 0)
                                 {
                                     double EditAmount = TQty * UnitCost;
                                     cmd = new MySqlCommand("Update branchaccounts set Amount=Amount+@Amount where BranchId=@BranchId");
@@ -4456,7 +4456,7 @@
                                         double DQty = 0;
                                         double.TryParse(o.RemainQty, out DQty);
                                         double TQty = DQty - PQty;
-                                        if (TQty >= 1)
+                                        if (TQty >= 0)
                                         {
                                             TQty = Math.Round(TQty, 2);
                                             if (DispType == "SO")
@@ -7774,20 +7774,20 @@
                     float Returnqty;
                     long IndentsNo = 0;
                     DataTable dtDelivers = new DataTable();
-                    if (context.Session["Delivers"] == null)
-                    {
+                    //if (context.Session["Delivers"] == null)
+                    //{
                         cmd = new MySqlCommand("SELECT indents.I_date,indents_subtable.Sno,indents_subtable.LeakQty,indents_subtable.DeliveryQty, indents_subtable.unitQty,indents_subtable.UnitCost, indents_subtable.Product_sno, productsdata.ProductName, indents_subtable.Status,  productsdata.sno, indents.IndentNo FROM indents INNER JOIN indents_subtable ON indents.IndentNo = indents_subtable.IndentNo INNER JOIN productsdata ON indents_subtable.Product_sno = productsdata.sno WHERE (indents.Branch_id = @bsno)  AND (indents.I_date between @d1 AND  @d2) group By productsdata.ProductName ");
                         cmd.Parameters.AddWithValue("@UserName", Username);
                         cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate.AddDays(-1)));
                         cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate.AddDays(-1)));
                         cmd.Parameters.AddWithValue("@bsno", b_bid);
                         dtDelivers = vdm.SelectQuery(cmd).Tables[0];
-                        context.Session["Delivers"] = dtDelivers;
-                    }
-                    else
-                    {
-                        dtDelivers = (DataTable)context.Session["Delivers"];
-                    }
+                    //    context.Session["Delivers"] = dtDelivers;
+                    //}
+                    //else
+                    //{
+                    //    dtDelivers = (DataTable)context.Session["Delivers"];
+                    //}
                     int DataCount = obj.data.Count;
                     string ProductName = "";
                     double TotalQty = 0;
@@ -7864,7 +7864,7 @@
                                             float Lqty = 0;
                                             float.TryParse(o.LeakQty, out Lqty);
                                             float TQty = Aqty - Eqty;
-                                            if (TQty >= 1)
+                                            if (TQty >= 0)
                                             {
                                                 float TotIndentcost = TQty * UnitCost;
                                                 cmd = new MySqlCommand("Update branchaccounts set Amount=Amount-@Amount where BranchId=@BranchId");
@@ -8227,7 +8227,7 @@
                                                         float Lqty = 0;
                                                         float.TryParse(o.LeakQty, out Lqty);
                                                         float TQty = Aqty - Eqty;
-                                                        if (TQty >= 1)
+                                                        if (TQty >= 0)
                                                         {
                                                             float TotIndentcost = TQty * UnitCost;
                                                             cmd = new MySqlCommand("Update branchaccounts set Amount=Amount-@Amount where BranchId=@BranchId");
