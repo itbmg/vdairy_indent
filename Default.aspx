@@ -525,7 +525,7 @@
             $('#divHide').css('display', 'none');
             $('#divRouteOrder').css('display', 'none');
             $('#divFillScreen').css('display', 'block');
-            $('#divFillScreen').setTemplateURL('Orders12.htm');
+            $('#divFillScreen').setTemplateURL('Orders13.htm');
             $('#divFillScreen').processTemplate();
             if (bid != "") {
                 BranchChane();
@@ -549,6 +549,8 @@
                 $(TubQty).closest("tr").find("#txtQtypkts").val(parseFloat(totltrvalue).toFixed(2));
 
                 $(TubQty).closest("tr").find("#txtDupUnitQty").text(parseFloat(totltrvalue).toFixed(2))
+                $(TubQty).closest("tr").find("#txtLtrQty").val(parseFloat(totltrvalue).toFixed(2))
+                $(TubQty).closest("tr").find("#hdnltrQty").val(parseFloat(totltrvalue).toFixed(2))
                 $(TubQty).closest("tr").find("#txtQtypkts").val(parseFloat(totalpkts).toFixed(2));
                 var val = parseFloat(totltrvalue).toFixed(2);
                 OrderUnitChange(TubQty);
@@ -570,6 +572,8 @@
                 //$(PktQty).closest("tr").find("#txtQtypkts").val(parseFloat(totltrvalue).toFixed(2));
 
                 $(PktQty).closest("tr").find("#txtDupUnitQty").text(parseFloat(totltrvalue).toFixed(2))
+                $(PktQty).closest("tr").find("#txtLtrQty").val(parseFloat(totltrvalue).toFixed(2))
+                $(PktQty).closest("tr").find("#hdnltrQty").val(parseFloat(totltrvalue).toFixed(2))
                 $(PktQty).closest("tr").find("#txtTubQty").val(parseFloat(totaltub).toFixed(2));
                 var val = parseFloat(totltrvalue).toFixed(2);
                 OrderUnitChange(PktQty);
@@ -823,7 +827,8 @@
                         }
                         if (DairyStatus == "Delivers") {
                             BindDeliversclick(msg);
-                            CalcDeliveryqty();
+                            //CalcDeliveryqty();
+                            calcTot();//akbar
                         }
                     }
                     else {
@@ -906,9 +911,9 @@
                         alert(msg);
                         window.location = "Login.aspx";
                     }
-                    $('#divleakes').setTemplateURL('Leakages9.htm');
-                    $('#divleakes').processTemplate(msg);
-                    CollectionCal();
+                    //$('#divleakes').setTemplateURL('Leakages9.htm');
+                    //$('#divleakes').processTemplate(msg);
+                    //CollectionCal();
                 }
                 else {
                 }
@@ -1357,7 +1362,9 @@
             if (PaidAmount == "") {
                 PaidAmount = 0;
             }
-            document.getElementById('txtBalanceAmount').innerHTML = parseFloat(TotAmount) - parseFloat(PaidAmount);
+            var balanceamount = 0;
+            balanceamount = parseFloat(TotAmount) - parseFloat(PaidAmount);
+            document.getElementById('txtBalanceAmount').innerHTML = balanceamount.toFixed(2);
         }
         function DeliverReturnQtyChange(Qty) {
             var Returnqty = 0;
@@ -1677,7 +1684,7 @@
             $('#divHide').css('display', 'none');
             $('#divRouteOrder').css('display', 'none');
             $('#divFillScreen').css('display', 'block');
-            $('#divFillScreen').setTemplateURL('Delivers7.htm');
+            $('#divFillScreen').setTemplateURL('Delivers8.htm');
             $('#divFillScreen').processTemplate();
             if (bid != "") {
                 BranchChane();
@@ -2799,10 +2806,11 @@
             callHandler(data, s, e);
         }
         function btnorderssaveclick() {
-            var BtnSave = document.getElementById('BtnSave').value;
-            if (BtnSave == "Edit") {
-                $(".Unitqtyclass").attr("disabled", false);
-                $(".OfferUnitqtyclass").attr("disabled", false);
+            if (DairyStatus == "Orders") {
+                var BtnSave = document.getElementById('BtnSave').value;
+                if (BtnSave == "Edit") {
+                    $(".Unitqtyclass").attr("disabled", false);
+                    $(".OfferUnitqtyclass").attr("disabled", false);
 
                 document.getElementById('BtnSave').value = "Save";
                 return false;
@@ -2856,11 +2864,91 @@
                 }
                 else {
 
+                    }
+                };
+                var e = function (x, h, e) {
+                };
+                CallHandlerUsingJson(Data, s, e);
+            }
+            else {
+                var BtnSave = document.getElementById('BtnSave').value;
+                if (BtnSave == "Edit") {
+                    $(".Unitqtyclass").attr("disabled", false);
+                    $(".OfferUnitqtyclass").attr("disabled", false);
+
+                    document.getElementById('BtnSave').value = "Save";
+                    return false;
                 }
-            };
-            var e = function (x, h, e) {
-            };
-            CallHandlerUsingJson(Data, s, e);
+                if (!confirm("Do you really want Save")) {
+                    return false;
+                }
+                var BranchName = document.getElementById('ddlBranchName').value;
+                var totqty = document.getElementById('txt_totRate').innerHTML;
+                //            var totrate = document.getElementById('txt_totRate').value;
+                var totTotal = document.getElementById('txt_total').innerHTML;
+                var IndentNo = $('#hdnIndentNo').val();
+                //Inventory
+                var rowInventory = $("#tableInventory tr:gt(0)");
+                var Inventorydetails = new Array();
+                $(rowInventory).each(function (i, obj) {
+                    if ($(this).find('#txtSno').text() == "" || $(this).find('#txtGivenQty').val() == "") {
+                    }
+                    else {
+                        Inventorydetails.push({ SNo: $(this).find('#txtSno').text(), InvSno: $(this).find('#hdnInvSno').val(), GivenQty: $(this).find('#txtGivenQty').val(), BalanceQty: $(this).find('#txtbalanceQty').text() });
+                    }
+                });
+                if (Inventorydetails.length == 0) {
+                    alert("Please Fill Given Qty");
+                    return false;
+                }
+
+                var rows = $("#tabledetails tr:gt(0)");
+                var Orderdetails = new Array();
+                $(rows).each(function (i, obj) {
+                    var txtsno = $(this).find('#txtsno').text();
+                    //var txtUnitQty = $(this).find('#txtUnitQty').val();
+                    var txtUnitQty = $(this).find('#txtQtypkts').val();
+                    if (txtsno == "" || txtUnitQty == "") {
+                    }
+                    else {
+                        Orderdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnProductSno').val(), Product: $(this).find('#txtproduct').text(), Rate: $(this).find('#hdnltrRate').val(), Total: $(this).find('#txtOrderTotal').text(), ReturnQty: $(this).find('#hdnltrQty').val(), Qty: $(this).find('#hdnQty').val(), orderunitRate: $(this).find('#txtOrderRate').text(), tubQty: $(this).find('#txtTubQty').val(), PktQty: $(this).find('#txtQtypkts').val(), Invqty: $(this).find('#hdninvQty').val(), UnitQty: $(this).find('#hdnUnitQty').val(), IndentNo: $(this).find('#hdnIndentNo').val(), hdnSno: $(this).find('#hdn_Sno').val(), HdnIndentSno: $(this).find('#HdnIndentSno').val(), Status: $(this).find('#ddlDelivered').val() });
+                    }
+                });
+                var offerrows = $("#table_offerdetails tr:gt(0)");
+                var OfferOrderdetails = new Array();
+                $(offerrows).each(function (i, obj) {
+                    var txtsno = $(this).find('#txtsno').text();
+                    //var txtUnitQty = $(this).find('#txtUnitQty').val();
+                    var txtUnitQty = $(this).find('#txtQtypkts').val();
+                    if (txtsno == "" || txtUnitQty == "") {
+                    }
+                    else {
+                        OfferOrderdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnofferProductSno').val(), Product: $(this).find('#txtproduct').text(), Rate: $(this).find('#hdnRate').val(), Total: $(this).find('#txtOfferOrderTotal').text(), Unitsqty: $(this).find('#txtUnitQty').val(), Qty: $(this).find('#offerhdnQty').val(), UnitCost: $(this).find('#txtofferOrderRate').text() });
+                    }
+                });
+                var TotalPrice = parseFloat(totTotal) - parseFloat(FinalAmount);
+                var Indenttype = document.getElementById('ddlIndentType').value;
+                var Data = { 'op': 'btnDeliversSaveClick', 'BranchID': BranchName, 'Inventorydetails': Inventorydetails, 'data': Orderdetails, 'offerdata': OfferOrderdetails, 'totqty': totqty, 'totTotal': totTotal, 'IndentNo': IndentNo, 'TotalPrice': TotalPrice, 'IndentType': Indenttype };
+                var s = function (msg) {
+                    if (msg) {
+                        alert(msg);
+                        $(".Unitqtyclass").attr("disabled", true);
+                        $(".OfferUnitqtyclass").attr("disabled", true);
+
+                        document.getElementById('BtnSave').value = "Edit";
+                        if (msg == "Session Expired") {
+                            window.location = "Login.aspx";
+                            OrderRefresh();
+                        }
+                    }
+                    else {
+
+                    }
+                };
+                var e = function (x, h, e) {
+                };
+                CallHandlerUsingJson(Data, s, e);
+            }
         }
         function OrderRefresh() {
             if (Changebutton == "Edit") {
@@ -3006,88 +3094,197 @@
         }
         var DataTable;
         function addrowsOrders() {
-            DataTable = [];
-            var txtsno = 0;
-            var txtProductName = "";
-            var txtProductSno = "";
-            var txtOrderQty = "";
-            var txtOrderRate = "";
-            var txtOrderTotal = "";
-            var txtUnitqty = "";
-            var txtUnits = "";
-            var txtTubQty = "";
-            var txtQtypkts = "";
-            var orderunitqty = "";
-            var Qty = 0;
-            var Rate = 0;
-            var Total = 0;
-            var txtPrvQty = 0;
-            var txtinvqty = 0;
+            if (DairyStatus == "Orders") {
+                DataTable = [];
+                var txtsno = 0;
+                var txtProductName = "";
+                var txtProductSno = "";
+                var txtOrderQty = "";
+                var txtOrderRate = "";
+                var txtOrderTotal = "";
+                var txtUnitqty = "";
+                var txtUnits = "";
+                var txtTubQty = "";
+                var txtQtypkts = "";
+                var orderunitqty = "";
+                var Qty = 0;
+                var Rate = 0;
+                var Total = 0;
+                var txtPrvQty = 0;
+                var txtinvqty = 0;
 
-            var txtDescription;
-            var rows = $("#tabledetails tr:gt(0)");
-            var Product = document.getElementById('cmb_productname');
-            var ProductSno = Product.options[Product.selectedIndex].value;
-            var ProductName = Product.options[Product.selectedIndex].text;
-            var txt_totqty = document.getElementById('txt_totqty').innerHTML;
-            var txt_totRate = document.getElementById('txt_totRate').innerHTML;
-            var txt_total = document.getElementById('txt_total').innerHTML;
-            var Checkexist = false;
-            $('.ProductClass').each(function (i, obj) {
-                var PName = $(this).text();
-                if (PName == ProductName) {
-                    alert("Product Already Added");
-                    Checkexist = true;
+                var txtDescription;
+                var rows = $("#tabledetails tr:gt(0)");
+                var Product = document.getElementById('cmb_productname');
+                var ProductSno = Product.options[Product.selectedIndex].value;
+                var ProductName = Product.options[Product.selectedIndex].text;
+                var txt_totqty = document.getElementById('txt_totqty').innerHTML;
+                var txt_totRate = document.getElementById('txt_totRate').innerHTML;
+                var txt_total = document.getElementById('txt_total').innerHTML;
+                var Checkexist = false;
+                $('.ProductClass').each(function (i, obj) {
+                    var PName = $(this).text();
+                    if (PName == ProductName) {
+                        alert("Product Already Added");
+                        Checkexist = true;
+                    }
+                });
+                if (Checkexist == true) {
+                    return;
                 }
-            });
-            if (Checkexist == true) {
-                return;
+                var IndentNo = $('#hdnIndentNo').val();
+                $(rows).each(function (i, obj) {
+                    if ($(this).find('#txtsno').text() != "") {
+                        txtsno = $(this).find('#txtsno').text();
+                        txtProductName = $(this).find('#txtproduct').text();
+                        txtProductSno = $(this).find('#hdnProductSno').val();
+                        txtOrderQty = $(this).find('#txtOrderQty').val();
+                        txtorderunitRate = $(this).find('#txtOrderRate').text();
+                        txtOrderTotal = $(this).find('#txtOrderTotal').text();
+                        //orderunitqty = $(this).find('#txtUnitQty').val();
+                        orderunitqty = $(this).find('#txtQtypkts').val();
+
+                        txtUnitqty = $(this).find('#hdnUnitQty').val();
+                        txtinvqty = $(this).find('#hdninvQty').val();
+                        txtUnits = $(this).find('#hdnUnits').val();
+                        txtUnits = $(this).find('#hdnUnits').val();
+                        txtOrderRate = $(this).find('#hdnRate').val();
+                        txtDescription = $(this).find('#txtDescription').text();
+                        txtPrvQty = $(this).find('#txtPrvQty').text();
+                        txtTubQty = $(this).find('#txtTubQty').val();
+                        txtQtypkts = $(this).find('#txtQtypkts').val();
+                        DataTable.push({ sno: txtsno, ProductCode: txtProductName, Productsno: txtProductSno, Qty: txtOrderQty, Rate: txtOrderRate, Total: txtOrderTotal, Unitqty: txtUnitqty, invqty: txtinvqty, Units: txtUnits, orderunitqty: orderunitqty, orderunitRate: txtorderunitRate, Desciption: txtDescription, PrevQty: txtPrvQty, Qtypkts: txtQtypkts, tubQty: txtTubQty });
+                    }
+                });
+                var Sno = parseInt(txtsno) + 1;
+                var Prevqty = 0;
+                DataTable.push({ sno: Sno, ProductCode: ProductName, Productsno: ProductSno, Qty: Qty, Rate: orderunitRate, invqty: invqty, Total: Total, Unitqty: UnitQty, Units: Units, orderunitqty: 0, orderunitRate: UnitPrice, Desciption: Description, PrevQty: Prevqty, Qtypkts: 0, tubQty: 0 });
+                //if (DairyStatus == "Delivers") {
+                //    BindDeliverInventory();
+                //    $('#divFillScreen').setTemplateURL('Delivers8.htm');
+                //    $('#divFillScreen').processTemplate(DataTable);
+                //}
+                //else {
+                    $('#divFillScreen').setTemplateURL('Orders13.htm');
+                    $('#divFillScreen').processTemplate(DataTable);
+               /* }*/
+                getofferproducts();
+                $('#hdnIndentNo').val(IndentNo);
+                document.getElementById('txt_totqty').innerHTML = txt_totqty;
+                document.getElementById('txt_totRate').innerHTML = txt_totRate;
+                document.getElementById('txt_total').innerHTML = txt_total;
+                var data = { 'op': 'AddBranchProducts', 'ProductSno': ProductSno, 'Rate': UnitPrice, 'bid': bid };
+                var s = function (msg) {
+                    if (msg) {
+                    }
+                    else {
+                    }
+                };
+                var e = function (x, h, e) {
+                };
+                $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+                callHandler(data, s, e);
             }
-            var IndentNo = $('#hdnIndentNo').val();
-            $(rows).each(function (i, obj) {
-                if ($(this).find('#txtsno').text() != "") {
-                    txtsno = $(this).find('#txtsno').text();
-                    txtProductName = $(this).find('#txtproduct').text();
-                    txtProductSno = $(this).find('#hdnProductSno').val();
-                    txtOrderQty = $(this).find('#txtOrderQty').val();
-                    txtorderunitRate = $(this).find('#txtOrderRate').text();
-                    txtOrderTotal = $(this).find('#txtOrderTotal').text();
-                    //orderunitqty = $(this).find('#txtUnitQty').val();
-                    orderunitqty = $(this).find('#txtQtypkts').val();
-
-                    txtUnitqty = $(this).find('#hdnUnitQty').val();
-                    txtinvqty = $(this).find('#hdninvQty').val();
-                    txtUnits = $(this).find('#hdnUnits').val();
-                    txtUnits = $(this).find('#hdnUnits').val();
-                    txtOrderRate = $(this).find('#hdnRate').val();
-                    txtDescription = $(this).find('#txtDescription').text();
-                    txtPrvQty = $(this).find('#txtPrvQty').text();
-                    txtTubQty = $(this).find('#txtTubQty').val();
-                    txtQtypkts = $(this).find('#txtQtypkts').val();
-                    DataTable.push({ sno: txtsno, ProductCode: txtProductName, Productsno: txtProductSno, Qty: txtOrderQty, Rate: txtOrderRate, Total: txtOrderTotal, Unitqty: txtUnitqty, invqty: txtinvqty, Units: txtUnits, orderunitqty: orderunitqty, orderunitRate: txtorderunitRate, Desciption: txtDescription, PrevQty: txtPrvQty, Qtypkts: txtQtypkts, tubQty: txtTubQty });
+            else {
+                DataTable = [];
+                var txtsno = 0;
+                var txtProductName = "";
+                var txtProductSno = "";
+                var txtOrderQty = "";
+                var txtOrderRate = "";
+                var txtOrderTotal = "";
+                var txtUnitqty = "";
+                var txtUnits = "";
+                var txtTubQty = "";
+                var txtQtypkts = "";
+                var orderunitqty = "";
+                var txtIndentNo = "";
+                var txthdnSno = 0;
+                var hdnIndentno = 0;
+                var Qty = 0;
+                var Rate = 0;
+                var Total = 0;
+                var IndentNo = 0;
+                var txtPrvQty = 0;
+                var txtinvqty = 0;
+                var txtLtrQty = 0;
+                var txtDescription;
+                var rows = $("#tabledetails tr:gt(0)");
+                var Product = document.getElementById('cmb_productname');
+                var ProductSno = Product.options[Product.selectedIndex].value;
+                var ProductName = Product.options[Product.selectedIndex].text;
+                var txt_totqty = document.getElementById('txt_totqty').innerHTML;
+                var txt_totRate = document.getElementById('txt_totRate').innerHTML;
+                var txt_total = document.getElementById('txt_total').innerHTML;
+                var Checkexist = false;
+                $('.ProductClass').each(function (i, obj) {
+                    var PName = $(this).text();
+                    if (PName == ProductName) {
+                        alert("Product Already Added");
+                        Checkexist = true;
+                    }
+                });
+                if (Checkexist == true) {
+                    return;
                 }
-            });
-            var Sno = parseInt(txtsno) + 1;
-            var Prevqty = 0;
-            DataTable.push({ sno: Sno, ProductCode: ProductName, Productsno: ProductSno, Qty: Qty, Rate: UnitPrice, invqty:invqty, Total: Total, Unitqty: UnitQty, Units: Units, orderunitqty: 0, orderunitRate: orderunitRate, Desciption: Description, PrevQty: Prevqty, Qtypkts: 0, tubQty: 0 });
-            $('#divFillScreen').setTemplateURL('Orders12.htm');
-            $('#divFillScreen').processTemplate(DataTable);
-            getofferproducts();
-            $('#hdnIndentNo').val(IndentNo);
-            document.getElementById('txt_totqty').innerHTML = txt_totqty;
-            document.getElementById('txt_totRate').innerHTML = txt_totRate;
-            document.getElementById('txt_total').innerHTML = txt_total;
-            var data = { 'op': 'AddBranchProducts', 'ProductSno': ProductSno, 'Rate': UnitPrice, 'bid': bid };
-            var s = function (msg) {
-                if (msg) {
-                }
-                else {
-                }
-            };
-            var e = function (x, h, e) {
-            };
-            $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
-            callHandler(data, s, e);
+                var IndentNo = $('#hdnIndent').val();
+                $(rows).each(function (i, obj) {
+                    if ($(this).find('#txtsno').text() != "") {
+                        txtsno = $(this).find('#txtsno').text();
+                        txtProductName = $(this).find('#txtproduct').text();
+                        txtProductSno = $(this).find('#hdnProductSno').val();
+                        txtOrderQty = $(this).find('#txtOrderQty').val();
+                        txtorderunitRate = $(this).find('#txtOrderRate').text();
+                        txtOrderTotal = $(this).find('#txtOrderTotal').text();
+                        //orderunitqty = $(this).find('#txtUnitQty').val();
+                        orderunitqty = $(this).find('#txtQtypkts').val();
+                        txtIndentNo = $(this).find('#hdnIndentNo').val();
+                        txthdnSno = $(this).find('#hdn_Sno').val();
+                        txtUnitqty = $(this).find('#hdnUnitQty').val();
+                        txtinvqty = $(this).find('#hdninvQty').val();
+                        txtUnits = $(this).find('#hdnUnits').val();
+                        txtUnits = $(this).find('#hdnUnits').val();
+                        txtOrderRate = $(this).find('#hdnltrRate').val();
+                        txtDescription = $(this).find('#txtDescription').text();
+                        txtPrvQty = $(this).find('#txtPrvQty').text(); 
+                        txtTubQty = $(this).find('#txtTubQty').val();
+                        txtQtypkts = $(this).find('#txtQtypkts').val();
+                        txtLtrQty = $(this).find('#hdnltrQty').val();
+                        DataTable.push({ sno: txtsno, ProductCode: txtProductName, Productsno: txtProductSno, Qty: txtOrderQty, ltr_rate: txtOrderRate, Total: txtOrderTotal, Unitqty: txtUnitqty, invqty: txtinvqty, Units: txtUnits, orderunitqty: orderunitqty, orderunitRate: txtorderunitRate, Desciption: txtDescription, PrevQty: txtPrvQty, Qtypkts: txtQtypkts, tubQty: txtTubQty, ltr_qty: txtLtrQty, IndentNo: txtIndentNo, HdnSno: txthdnSno });
+                    }
+                });
+                var Sno = parseInt(txtsno) + 1;
+                var Prevqty = 0;
+                var hdnISno = 0;
+                DataTable.push({ sno: Sno, ProductCode: ProductName, Productsno: ProductSno, ltr_qty: 0, ltr_rate: UnitPrice, invqty: invqty, Total: Total, Unitqty: UnitQty, Units: Units, orderunitqty: 0, orderunitRate: orderunitRate, Desciption: Description, PrevQty: Prevqty, Qtypkts: 0, tubQty: 0, HdnSno: hdnISno, IndentNo: txtIndentNo });
+                
+               /* if (DairyStatus == "Delivers") {*/
+                    BindDeliverInventory();
+                    $('#divFillScreen').setTemplateURL('Delivers8.htm');
+                    $('#divFillScreen').processTemplate(DataTable);
+                //}
+                //else {
+                //    $('#divFillScreen').setTemplateURL('Orders13.htm');
+                //    $('#divFillScreen').processTemplate(DataTable);
+                //}
+                getofferproducts();
+                IndentNo = txtIndentNo;
+                $('#hdnIndent').val(IndentNo);
+                document.getElementById('txt_totqty').innerHTML = txt_totqty;
+                document.getElementById('txt_totRate').innerHTML = txt_totRate;
+                document.getElementById('txt_total').innerHTML = txt_total;
+                var data = { 'op': 'AddBranchProducts', 'ProductSno': ProductSno, 'Rate': UnitPrice, 'bid': bid };
+                var s = function (msg) {
+                    if (msg) {
+                    }
+                    else {
+                    }
+                };
+                var e = function (x, h, e) {
+                };
+                $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+                callHandler(data, s, e);
+            }
         }
         var DirectDeliverTable;
 
@@ -3176,6 +3373,7 @@
             var ddlDelivered = "";
             var txtLeakqty = 0;
             var txtCost = 0;
+            var txtUnits = 0;
             var HdnIndentSno = 0;
             var txtRemainingQty = 0;
             var rows = $("#tabledetails tr:gt(0)");
@@ -3207,7 +3405,9 @@
                     txtReturnqty = $(this).find('#txtReturnqty').val();
                     ddlDelivered = $(this).find('#ddlDelivered').val();
                     txtCost = $(this).find('#hdnCost').val();
-                    DeliverTable.push({ sno: txtsno, ProductCode: txtProductName, Productsno: txtProductSno, LeakQty: txtLeakqty, IndentNo: txtIndentNo, HdnSno: txthdnSno, Qty: txtqty, DQty: txtReturnqty, Status: ddlDelivered, orderunitRate: txtCost, HdnIndentSno: HdnIndentSno, RQty: txtRemainingQty });
+                    txtUnits = $(this).find('#hdnuomqty').val();//added uom qty
+                    
+                    DeliverTable.push({ sno: txtsno, ProductCode: txtProductName, Productsno: txtProductSno, LeakQty: txtLeakqty, IndentNo: txtIndentNo, HdnSno: txthdnSno, Qty: txtqty, DQty: txtReturnqty, Status: ddlDelivered, orderunitRate: txtCost, HdnIndentSno: HdnIndentSno, RQty: txtRemainingQty, Units: txtUnits });//added uom qty
                 }
             });
             var Sno = parseInt(txtsno) + 1;
@@ -3220,8 +3420,8 @@
             var leak = 0;
             var DQty = 0;
             var RQty = 0;
-            DeliverTable.push({ sno: Sno, ProductCode: ProductName, Productsno: ProductSno, LeakQty: leak, HdnSno: hdnISno, IndentNo: txtIndentNo, Qty: Qty, DQty: DQty, Status: Delivered, orderunitRate: UnitPrice, HdnIndentSno: HdnIndentSno, RQty: RemainQty });
-            $('#divFillScreen').setTemplateURL('Delivers7.htm');
+            DeliverTable.push({ sno: Sno, ProductCode: ProductName, Productsno: ProductSno, LeakQty: leak, HdnSno: hdnISno, IndentNo: txtIndentNo, Qty: Qty, DQty: DQty, Status: Delivered, orderunitRate: UnitPrice, HdnIndentSno: HdnIndentSno, RQty: RemainQty, Units: UnitQty });//added uomqty
+            $('#divFillScreen').setTemplateURL('Delivers8.htm');
             $('#divFillScreen').processTemplate(DeliverTable);
 
             //$('#divOfferindent').setTemplateURL('OfferDelivery.htm');
@@ -3344,7 +3544,7 @@
             var data = { 'op': 'GetProductNamechange', 'ProductSno': ProductSno, 'BranchID': BranchID };
             var s = function (msg) {
                 if (msg) {
-                    UnitPrice = msg[0].orderunitRate;
+                    UnitPrice = msg[0].UnitPrice;
                     UnitQty = msg[0].Unitqty;
                     QtyUnit = msg[0].Unitqty;
                     Units = msg[0].Units;
@@ -3451,7 +3651,7 @@
                 if ($(this).find('#txtsno').text() == "" || $(this).find('#txtReturnqty').val() == "") {
                 }
                 else {
-                    Deliverdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnProductSno').val(), Product: $(this).find('#txtproduct').text(), Returnqty: $(this).find('#txtReturnqty').val(), Status: $(this).find('#ddlDelivered').val(), IndentNo: $(this).find('#hdnIndentNo').val(), hdnSno: $(this).find('#hdn_Sno').val(), HdnIndentSno: $(this).find('#HdnIndentSno').val(), orderunitRate: $(this).find('#hdnCost').val(), LeakQty: $(this).find('#txtLeakQty').val(), RemainQty: $(this).find('#txtLeakQty').text() });
+                    Deliverdetails.push({ SNo: $(this).find('#txtsno').text(), ProductSno: $(this).find('#hdnProductSno').val(), Product: $(this).find('#txtproduct').text(), Returnqty: $(this).find('#txtReturnqty').val(), Status: $(this).find('#ddlDelivered').val(), IndentNo: $(this).find('#hdnIndentNo').val(), hdnSno: $(this).find('#hdn_Sno').val(), HdnIndentSno: $(this).find('#HdnIndentSno').val(), orderunitRate: $(this).find('#hdnCost').val(), LeakQty: $(this).find('#txtLeakQty').val(), RemainQty: $(this).find('#txtLeakQty').text(), Units: $(this).find('#hdnuomqty').val() });
                 }
             });
             var rowInventory = $("#tableInventory tr:gt(0)");
