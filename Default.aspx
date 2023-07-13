@@ -186,7 +186,8 @@
     </script>
     <script type="text/javascript">
         function GetBranchStatus(RouteId) {
-            var data = { 'op': 'GetIndentStatus', 'RouteId': RouteId };
+            var ddlIndentType = "Indent1";
+            var data = { 'op': 'GetIndentStatus', 'RouteId': RouteId, 'ddlIndentType': ddlIndentType };
             var s = function (msg) {
                 if (msg) {
                     if (msg == "Session Expired") {
@@ -203,6 +204,29 @@
             $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
             callHandler(data, s, e);
         }
+
+        //function ddlIndentTypeChange(RouteId) {
+        function ddlIndentTypeChange() {
+            var RouteId = document.getElementById('ddlRouteName').value;
+            var ddlIndentType = document.getElementById('ddlIndentType').value;
+            var data = { 'op': 'GetIndentStatus', 'RouteId': RouteId, 'ddlIndentType': ddlIndentType };
+            var s = function (msg) {
+                if (msg) {
+                    if (msg == "Session Expired") {
+                        alert(msg);
+                        window.location = "Login.aspx";
+                    }
+                    ColorChangeDropdown(msg);
+                }
+                else {
+                }
+            };
+            var e = function (x, h, e) {
+            };
+            $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+            callHandler(data, s, e);
+        }
+
         function fillEmployeeName() {
             var data = { 'op': 'GetSOEmployeeNames' };
             var s = function (msg) {
@@ -393,6 +417,9 @@
         }
         function ColorChangeDropdown(data) {
             var select = document.getElementById('ddlBranchName');
+            for (var k = 0; k < select.options.length; k++) {
+                select.options[k].style.backgroundColor = '';
+            }
             for (var i = 0; i < data.length; i++) {
                 var Branchid = data[i].bid;
                 for (var j = 0; j < select.options.length; j++) {
@@ -402,6 +429,7 @@
                     }
                 }
             }
+            //select.options.length = 0;
         }
         function FillCategeoryname() {
             var data = { 'op': 'FillCategeoryname' };
@@ -4944,7 +4972,7 @@
                                Indent Type</label>
                         </td>
                         <td style="width: 80%; float: right;">
-                            <select id="ddlIndentType" class="ddlBranch" >
+                            <select id="ddlIndentType" class="ddlBranch" onchange="ddlIndentTypeChange();">
                             </select>
                         </td>
                     </tr>
