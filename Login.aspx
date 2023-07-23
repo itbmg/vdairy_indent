@@ -84,6 +84,8 @@
                 <img src="Images/Vyshnavilogo.png" />
                 <br />
                 <span>Powered by Vyshnavi Dairy</span>
+                <br />
+             <span style="font-size: 14px;">Beta Version <strong>1.0</strong></span>
             </div>
             <table style="border: 1px; height: 100%; width: 100%;">
                 <tr>

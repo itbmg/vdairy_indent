@@ -206,26 +206,26 @@
         }
 
         //function ddlIndentTypeChange(RouteId) {
-        function ddlIndentTypeChange() {
-            var RouteId = document.getElementById('ddlRouteName').value;
-            var ddlIndentType = document.getElementById('ddlIndentType').value;
-            var data = { 'op': 'GetIndentStatus', 'RouteId': RouteId, 'ddlIndentType': ddlIndentType };
-            var s = function (msg) {
-                if (msg) {
-                    if (msg == "Session Expired") {
-                        alert(msg);
-                        window.location = "Login.aspx";
-                    }
-                    ColorChangeDropdown(msg);
-                }
-                else {
-                }
-            };
-            var e = function (x, h, e) {
-            };
-            $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
-            callHandler(data, s, e);
-        }
+        //function ddlIndentTypeChange() {
+        //    var RouteId = document.getElementById('ddlRouteName').value;
+        //    var ddlIndentType = document.getElementById('ddlIndentType').value;
+        //    var data = { 'op': 'GetIndentStatus', 'RouteId': RouteId, 'ddlIndentType': ddlIndentType };
+        //    var s = function (msg) {
+        //        if (msg) {
+        //            if (msg == "Session Expired") {
+        //                alert(msg);
+        //                window.location = "Login.aspx";
+        //            }
+        //            ColorChangeDropdown(msg);
+        //        }
+        //        else {
+        //        }
+        //    };
+        //    var e = function (x, h, e) {
+        //    };
+        //    $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+        //    callHandler(data, s, e);
+        //}
 
         function fillEmployeeName() {
             var data = { 'op': 'GetSOEmployeeNames' };
@@ -4972,7 +4972,7 @@
                                Indent Type</label>
                         </td>
                         <td style="width: 80%; float: right;">
-                            <select id="ddlIndentType" class="ddlBranch" onchange="ddlIndentTypeChange();">
+                            <select id="ddlIndentType" class="ddlBranch">
                             </select>
                         </td>
                     </tr>

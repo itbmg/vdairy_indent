@@ -5415,9 +5415,9 @@
                     List<Route> Routelist = new List<Route>();
                     if (routearray.Length > 1)
                     {
-                        cmd = new MySqlCommand("SELECT branchdata.BranchName, branchdata.sno, indents.IndentNo,indents.IndentType, indents.I_date FROM  branchroutesubtable INNER JOIN branchroutes ON branchroutesubtable.RefNo = branchroutes.Sno INNER JOIN branchdata ON branchroutesubtable.BranchID = branchdata.sno INNER JOIN indents ON branchdata.sno = indents.Branch_id WHERE (branchroutes.Sno = @RouteId) AND (indents.I_date between @d1 AND  @d2) AND (indents.IndentType= @IndentType)");
+                        cmd = new MySqlCommand("SELECT branchdata.BranchName, branchdata.sno, indents.IndentNo,indents.IndentType, indents.I_date FROM  branchroutesubtable INNER JOIN branchroutes ON branchroutesubtable.RefNo = branchroutes.Sno INNER JOIN branchdata ON branchroutesubtable.BranchID = branchdata.sno INNER JOIN indents ON branchdata.sno = indents.Branch_id WHERE (branchroutes.Sno = @RouteId) AND (indents.I_date between @d1 AND  @d2)");
                         cmd.Parameters.AddWithValue("@RouteId", RouteId);
-                        cmd.Parameters.AddWithValue("@IndentType", indenttype);
+                        //cmd.Parameters.AddWithValue("@IndentType", indenttype);
                         cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate));
                         cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate));
                         dtbranches = vdm.SelectQuery(cmd).Tables[0];
@@ -5425,20 +5425,20 @@
                     else
                     {
 
-                        cmd = new MySqlCommand("SELECT branchdata.sno, branchdata.BranchName, indents.IndentNo,indents.IndentType FROM tripdata INNER JOIN triproutes ON tripdata.Sno = triproutes.Tripdata_sno INNER JOIN empmanage ON tripdata.EmpId = empmanage.Sno INNER JOIN dispatch ON empmanage.Branch = dispatch.Branch_Id INNER JOIN branchroutesubtable ON dispatch.Route_id = branchroutesubtable.RefNo INNER JOIN branchdata ON branchroutesubtable.BranchID = branchdata.sno INNER JOIN dispatch_sub ON dispatch.sno = dispatch_sub.dispatch_sno INNER JOIN indents ON branchdata.sno = indents.Branch_id WHERE (triproutes.Tripdata_sno = @TripId) AND (dispatch_sub.dispatch_sno = @dispatch_sno) AND (indents.I_date between @d1 AND  @d2) AND (indents.IndentType= @IndentType) GROUP BY branchdata.BranchName");
+                        cmd = new MySqlCommand("SELECT branchdata.sno, branchdata.BranchName, indents.IndentNo,indents.IndentType FROM tripdata INNER JOIN triproutes ON tripdata.Sno = triproutes.Tripdata_sno INNER JOIN empmanage ON tripdata.EmpId = empmanage.Sno INNER JOIN dispatch ON empmanage.Branch = dispatch.Branch_Id INNER JOIN branchroutesubtable ON dispatch.Route_id = branchroutesubtable.RefNo INNER JOIN branchdata ON branchroutesubtable.BranchID = branchdata.sno INNER JOIN dispatch_sub ON dispatch.sno = dispatch_sub.dispatch_sno INNER JOIN indents ON branchdata.sno = indents.Branch_id WHERE (triproutes.Tripdata_sno = @TripId) AND (dispatch_sub.dispatch_sno = @dispatch_sno) AND (indents.I_date between @d1 AND  @d2)  GROUP BY branchdata.BranchName");
                         //cmd = new MySqlCommand("SELECT branchdata.BranchName, branchdata.sno, indents.IndentNo, indents.I_date FROM  branchroutesubtable INNER JOIN branchroutes ON branchroutesubtable.RefNo = branchroutes.Sno INNER JOIN branchdata ON branchroutesubtable.BranchID = branchdata.sno INNER JOIN indents ON branchdata.sno = indents.Branch_id WHERE (branchroutes.Sno = @RouteId) AND (indents.I_date > @d1) AND (indents.I_date < @d2)");
                         cmd.Parameters.AddWithValue("@TripId", context.Session["TripdataSno"].ToString());
                         cmd.Parameters.AddWithValue("@dispatch_sno", RouteId);
                         cmd.Parameters.AddWithValue("@d1", DateConverter.GetLowDate(ServerDateCurrentdate));
                         cmd.Parameters.AddWithValue("@d2", DateConverter.GetHighDate(ServerDateCurrentdate));
-                        cmd.Parameters.AddWithValue("@IndentType", indenttype);
+                        //cmd.Parameters.AddWithValue("@IndentType", indenttype);
                         dtbranches = vdm.SelectQuery(cmd).Tables[0];
                     }
                     if (dtbranches.Rows.Count > 0)
                     {
                         foreach (DataRow dr in dtbranches.Rows)
                         {
-                            BranchStatus b = new BranchStatus() { bid = dr["sno"].ToString(), BName = dr["BranchName"].ToString(), IndentType = dr["IndentType"].ToString() };
+                            BranchStatus b = new BranchStatus() { bid = dr["sno"].ToString(), BName = dr["BranchName"].ToString()};
                             BList.Add(b);
                         }
                         string response = GetJson(BList);
