@@ -9810,7 +9810,7 @@
                                         //getOrderValue.orderunitqty = "";
                                         getOrderValue.Qtypkts = "";
                                         float PrevQty = 0;
-                                        float.TryParse(dr["UnitQty"].ToString(), out PrevQty);
+                                        float.TryParse(dr["pkt_qty"].ToString(), out PrevQty);
                                         getOrderValue.PrevQty = Math.Round(PrevQty, 2);
 
                                         OrderList.Add(getOrderValue);
