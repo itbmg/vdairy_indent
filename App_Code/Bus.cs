@@ -7103,12 +7103,12 @@
 
                                 double unitQty = 0;
                                 double.TryParse(o.Unitsqty, out unitQty);
-                                unitQty = Math.Round(unitQty, 2);
+                                unitQty = Math.Round(unitQty, 3);
 
                                 //adding ltrqty  added by akbar 22/03/2023
                                 double ltrQty = 0;
                                 ltrQty = unitQty * UOMQty / 1000;
-                                ltrQty = Math.Round(ltrQty, 2);
+                                ltrQty = Math.Round(ltrQty, 3);
 
                                 double pktqty = 0;
                                 double.TryParse(o.PktQty, out pktqty);
@@ -7362,12 +7362,12 @@
                                     //cmd.Parameters.AddWithValue("@UnitCost", UnitCost); //comment by akbar 22/03/2023
                                     double unitQty = 0;
                                     double.TryParse(o.Unitsqty, out unitQty);
-                                    unitQty = Math.Round(unitQty, 2);
+                                    unitQty = Math.Round(unitQty, 3);
 
                                     //adding ltrqty  added by akbar 22/03/2023
                                     double ltrQty = 0;
                                     ltrQty = unitQty * UOMQty / 1000;
-                                    ltrQty = Math.Round(ltrQty, 2);
+                                    ltrQty = Math.Round(ltrQty, 3);
                                     //naveen
                                     double PktQty = 0;
                                     double.TryParse(o.PktQty, out PktQty);
@@ -7490,12 +7490,12 @@
 
                                 double unitQty = 0;
                                 double.TryParse(o.Unitsqty, out unitQty);
-                                unitQty = Math.Round(unitQty, 2);
+                                unitQty = Math.Round(unitQty, 3);
 
                                 // adding ltrqty added by akbar 22/03/2023
                                 double ltrQty = 0;
                                 ltrQty = unitQty * UOMQty / 1000;
-                                ltrQty = Math.Round(ltrQty, 2);
+                                ltrQty = Math.Round(ltrQty, 3);
 
                                 //cmd.Parameters.AddWithValue("@unitQty", unitQty);//commented  by akbar 22/03/2023
                                 cmd.Parameters.AddWithValue("@unitQty", ltrQty); //added by akbar 22 / 03 / 2023

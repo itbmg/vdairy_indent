@@ -576,9 +576,9 @@
                 //$(TubQty).closest("tr").find("#txtUnitQty").val(parseFloat(totltrvalue).toFixed(2));
                 $(TubQty).closest("tr").find("#txtQtypkts").val(parseFloat(totltrvalue).toFixed(2));
 
-                $(TubQty).closest("tr").find("#txtDupUnitQty").text(parseFloat(totltrvalue).toFixed(2))
-                $(TubQty).closest("tr").find("#txtLtrQty").val(parseFloat(totltrvalue).toFixed(2))
-                $(TubQty).closest("tr").find("#hdnltrQty").val(parseFloat(totltrvalue).toFixed(2))
+                $(TubQty).closest("tr").find("#txtDupUnitQty").text(parseFloat(totltrvalue).toFixed(3))
+                $(TubQty).closest("tr").find("#txtLtrQty").val(parseFloat(totltrvalue).toFixed(3))
+                $(TubQty).closest("tr").find("#hdnltrQty").val(parseFloat(totltrvalue).toFixed(3))
                 $(TubQty).closest("tr").find("#txtQtypkts").val(parseFloat(totalpkts).toFixed(2));
                 var val = parseFloat(totltrvalue).toFixed(2);
                 OrderUnitChange(TubQty);
@@ -599,9 +599,9 @@
                 //$(PktQty).closest("tr").find("#txtUnitQty").val(parseFloat(totltrvalue).toFixed(2));
                 //$(PktQty).closest("tr").find("#txtQtypkts").val(parseFloat(totltrvalue).toFixed(2));
 
-                $(PktQty).closest("tr").find("#txtDupUnitQty").text(parseFloat(totltrvalue).toFixed(2))
-                $(PktQty).closest("tr").find("#txtLtrQty").val(parseFloat(totltrvalue).toFixed(2))
-                $(PktQty).closest("tr").find("#hdnltrQty").val(parseFloat(totltrvalue).toFixed(2))
+                $(PktQty).closest("tr").find("#txtDupUnitQty").text(parseFloat(totltrvalue).toFixed(3))
+                $(PktQty).closest("tr").find("#txtLtrQty").val(parseFloat(totltrvalue).toFixed(3))
+                $(PktQty).closest("tr").find("#hdnltrQty").val(parseFloat(totltrvalue).toFixed(3))
                 $(PktQty).closest("tr").find("#txtTubQty").val(parseFloat(totaltub).toFixed(2));
                 var val = parseFloat(totltrvalue).toFixed(2);
                 OrderUnitChange(PktQty);
