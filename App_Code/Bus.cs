@@ -6583,6 +6583,7 @@
                 double TotPaidAmount = 0;
                 double.TryParse(PaidAmount, out TotPaidAmount);
                 TotPaidAmount = Math.Round(TotPaidAmount, 2);
+                string CashReceiptNo = "";
                 if (btnvalue == "Save")
                 {
                     //Receipt
@@ -6591,7 +6592,7 @@
                     cmd.Parameters.AddWithValue("@d1", GetLowDate(dtapril));
                     cmd.Parameters.AddWithValue("@d2", GetHighDate(dtmarch));
                     DataTable dtReceipt = vdm.SelectQuery(cmd).Tables[0];
-                    string CashReceiptNo = dtReceipt.Rows[0]["Sno"].ToString();
+                    CashReceiptNo = dtReceipt.Rows[0]["Sno"].ToString();
                     if (PaymentType == "Cheque")
                     {
                         cmd = new MySqlCommand("insert into cashreceipts (BranchId,ReceivedFrom,AgentID,AmountPaid,DOE,Create_by,Remarks,OppBal,Receipt,Paymentstatus,ChequeNo,Tripid) values (@BranchId,@ReceivedFrom,@AgentID,@AmountPaid,@DOE, @Create_by,@Remarks,@OppBal,@Receipt,@Paymentstatus,@ChequeNo,@Tripid)");
@@ -6732,7 +6733,7 @@
                             }
                         }
                     }
-                    
+
                 }
                 else
                 {
@@ -6746,6 +6747,7 @@
                         foreach (DataRow dr in dtcall.Rows)
                         {
                             string ReceiptNo = dr["ReceiptNo"].ToString();
+                            CashReceiptNo = dr["ReceiptNo"].ToString();
                             double amt = 0;
                             double.TryParse(dr["AmountPaid"].ToString(), out amt);
                             double diffamt = TotPaidAmount - amt;
@@ -6760,7 +6762,7 @@
                                     cmd.Parameters.AddWithValue("@PaidDate", ServerDateCurrentdate);
                                     cmd.Parameters.AddWithValue("@AmountPaid", TotPaidAmount);
                                     cmd.Parameters.AddWithValue("@Denominations", DenominationString);
-                                    cmd.Parameters.AddWithValue("@ReceiptNo", ReceiptNo);
+                                    cmd.Parameters.AddWithValue("@ReceiptNo", CashReceiptNo);
                                     vdm.Update(cmd);
 
                                     cmd = new MySqlCommand("Update branchaccounts set Amount=Amount-@Amount where BranchId=@BranchId");
@@ -6803,7 +6805,7 @@
                                         cmd.Parameters.AddWithValue("@PaidDate", ServerDateCurrentdate);
                                         cmd.Parameters.AddWithValue("@AmountPaid", TotPaidAmount);
                                         cmd.Parameters.AddWithValue("@Denominations", DenominationString);
-                                        cmd.Parameters.AddWithValue("@ReceiptNo", ReceiptNo);
+                                        cmd.Parameters.AddWithValue("@ReceiptNo", CashReceiptNo);
                                         vdm.Update(cmd);
 
 
@@ -6820,7 +6822,7 @@
                                 cmd.Parameters.AddWithValue("@PaidDate", ServerDateCurrentdate);
                                 cmd.Parameters.AddWithValue("@AmountPaid", TotPaidAmount);
                                 cmd.Parameters.AddWithValue("@Denominations", DenominationString);
-                                cmd.Parameters.AddWithValue("@ReceiptNo", ReceiptNo);
+                                cmd.Parameters.AddWithValue("@ReceiptNo", CashReceiptNo);
                                 vdm.Update(cmd);
                                 //# End added by akbar for paidamount updating at the time of edit
                                 cmd = new MySqlCommand("Update branchaccounts set Amount=Amount-@Amount where BranchId=@BranchId");
@@ -6860,42 +6862,51 @@
                         }
                     }
                 }
-
-                cmd = new MySqlCommand("SELECT sno, BranchName, phonenumber FROM branchdata WHERE (sno = @BranchID)");
-                cmd.Parameters.AddWithValue("@BranchID", b_bid);
-                DataTable dtBranch = vdm.SelectQuery(cmd).Tables[0];
-                if (dtBranch.Rows.Count > 0)
+                if (context.Session["BranchSno"].ToString() == "7")
                 {
-                    string BranchName = dtBranch.Rows[0]["BranchName"].ToString();
-                    string phonenumber = dtBranch.Rows[0]["phonenumber"].ToString();
-                    string Agentid = dtBranch.Rows[0]["sno"].ToString();
-                    if (phonenumber.Length == 10)
+
+                    cmd = new MySqlCommand("SELECT sno, BranchName, phonenumber FROM branchdata WHERE (sno = @BranchID)");
+                    cmd.Parameters.AddWithValue("@BranchID", b_bid);
+                    DataTable dtBranch = vdm.SelectQuery(cmd).Tables[0];
+                    if (dtBranch.Rows.Count > 0)
                     {
-                        string Date = DateTime.Now.ToString("dd/MM/yyyy");
-                        string BranchSno = context.Session["CsoNo"].ToString();
-                         //////WebClient client = new WebClient();
-                         //////   //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
-                         //////   // string strUrl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + no + "&message=" + message1 +" &sender=VYSNVI&type=1&route=2";
-                         //////   string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "%20Your%20Collection" + TotPaidAmount + "%20for%20today%20Date%20" + Date + "%20if%20any%20changes%20please%20call&sender=VYSNVI&type=1&route=2";
-                         //////   //string baseul = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20Your%20Collection" + TotPaidAmount + "%20for%20today%20Date%20" + Date + "%20if%20any%20changes%20please%20call&type=1";
-                         //////   Stream data = client.OpenRead(baseurl);
-                         //////   StreamReader reader = new StreamReader(data);
-                         //////   string ResponseID = reader.ReadToEnd();
-                         //////   data.Close();
-                         //////   reader.Close();
-                      
-                        string message = " " + phonenumber + " Dear " + BranchName + " Your Collection" + TotPaidAmount + " for today Date " + Date + " if any changes please call ";
-                        // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
-                        cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
-                        cmd.Parameters.AddWithValue("@agentid", Agentid);
-                        cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
-                        //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
-                        cmd.Parameters.AddWithValue("@msg", message);
-                        cmd.Parameters.AddWithValue("@mobileno", phonenumber);
-                        cmd.Parameters.AddWithValue("@msgtype", "OnlineCollections");
-                        cmd.Parameters.AddWithValue("@branchname", BranchName);
-                        cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
-                        vdm.insert(cmd);
+                        string BranchName = dtBranch.Rows[0]["BranchName"].ToString();
+                        string phonenumber = dtBranch.Rows[0]["phonenumber"].ToString();
+                        //string phonenumber = "7013732814";//dtBranch.Rows[0]["phonenumber"].ToString();
+                        string Agentid = dtBranch.Rows[0]["sno"].ToString();
+                        if (phonenumber.Length == 10)
+                        {
+                            cmd = new MySqlCommand("SELECT  * from agent_bal_trans where agentid=@BranchID  ORDER BY sno DESC Limit 1");
+                            cmd.Parameters.AddWithValue("@BranchID", Agentid);
+                            DataTable dtTotalAmount = vdm.SelectQuery(cmd).Tables[0];
+                            string bal_amt = "0";
+                            if (dtTotalAmount.Rows.Count > 0)
+                            {
+                                bal_amt = dtTotalAmount.Rows[0]["clo_balance"].ToString();
+                            }
+                            string Date = DateTime.Now.ToString("dd/MM/yyyy");
+                            string BranchSno = context.Session["CsoNo"].ToString();
+                            WebClient client = new WebClient();
+                            string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=Vys@2021&from=VYSSAL&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20Your%20Collected%20Amount%20Rs." + TotPaidAmount + "%20for%20the%20Dt." + Date + "%20,ReceiptNo%20" + CashReceiptNo + "%20and%20Balance%20is%20Rs.=" + bal_amt + "&type = 1&template_id=1407165466585735820";
+                            Stream data = client.OpenRead(baseurl);
+                            StreamReader reader = new StreamReader(data);
+                            string ResponseID = reader.ReadToEnd();
+                            data.Close();
+                            reader.Close();
+
+                            string message = " " + phonenumber + " Dear " + BranchName + " Your Collection" + TotPaidAmount + " for today Date " + Date + " if any changes please call ";
+                            // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
+                            cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
+                            cmd.Parameters.AddWithValue("@agentid", Agentid);
+                            cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
+                            //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
+                            cmd.Parameters.AddWithValue("@msg", message);
+                            cmd.Parameters.AddWithValue("@mobileno", phonenumber);
+                            cmd.Parameters.AddWithValue("@msgtype", "OnlineCollections");
+                            cmd.Parameters.AddWithValue("@branchname", BranchName);
+                            cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
+                            vdm.insert(cmd);
+                        }
                     }
                 }
                 List<string> msgStringlist = new List<string>();
