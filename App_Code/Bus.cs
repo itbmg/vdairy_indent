@@ -1166,54 +1166,54 @@
                 {
                     InvName += dr["InvName"].ToString() + "=" + dr["Qty"].ToString() + ";";
                 }
-                if (phonenumber.Length == 10)
-                {
-                    string Date = DateTime.Now.ToString("dd/MM/yyyy"); ;
-                    WebClient client = new WebClient();
-                    //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
-                    string BranchSno = context.Session["CsoNo"].ToString();
-                    if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
-                    {
-                        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&sender=VYSNVI&type=1&route=2";
+                ////if (phonenumber.Length == 10)
+                ////{
+                ////    string Date = DateTime.Now.ToString("dd/MM/yyyy"); ;
+                ////    WebClient client = new WebClient();
+                ////    //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
+                ////    string BranchSno = context.Session["CsoNo"].ToString();
+                ////    if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
+                ////    {
+                ////        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&sender=VYSNVI&type=1&route=2";
 
-                        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&type=1";
-                        Stream data = client.OpenRead(baseurl);
-                        StreamReader reader = new StreamReader(data);
-                        string ResponseID = reader.ReadToEnd();
-                        data.Close();
-                        reader.Close();
-                    }
-                    else
-                    {
-                        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&sender=VYSNVI&type=1&route=2";
-                        // string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&type=1";
-                        Stream data = client.OpenRead(baseurl);
-                        StreamReader reader = new StreamReader(data);
-                        string ResponseID = reader.ReadToEnd();
-                        data.Close();
-                        reader.Close();
-                    }
-                    string message = "Dear  " + BranchName + "  DCNO: " + DcNo + "  Your  indent  delivery  for  today  " + Date + "  ,  " + ProductName + " Tota  Ltrs =" + TotalQty + " Sale  Value  " + Salevalue + "  With  Bal  Inventory " + InvName + "";
+                ////        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&type=1";
+                ////        Stream data = client.OpenRead(baseurl);
+                ////        StreamReader reader = new StreamReader(data);
+                ////        string ResponseID = reader.ReadToEnd();
+                ////        data.Close();
+                ////        reader.Close();
+                ////    }
+                ////    else
+                ////    {
+                ////        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&sender=VYSNVI&type=1&route=2";
+                ////        // string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&type=1";
+                ////        Stream data = client.OpenRead(baseurl);
+                ////        StreamReader reader = new StreamReader(data);
+                ////        string ResponseID = reader.ReadToEnd();
+                ////        data.Close();
+                ////        reader.Close();
+                ////    }
+                ////    string message = "Dear  " + BranchName + "  DCNO: " + DcNo + "  Your  indent  delivery  for  today  " + Date + "  ,  " + ProductName + " Tota  Ltrs =" + TotalQty + " Sale  Value  " + Salevalue + "  With  Bal  Inventory " + InvName + "";
 
-                    // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
-                    cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
-                    cmd.Parameters.AddWithValue("@agentid", b_bid);
-                    cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
-                    //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
-                    cmd.Parameters.AddWithValue("@msg", message);
-                    cmd.Parameters.AddWithValue("@mobileno", phonenumber);
-                    cmd.Parameters.AddWithValue("@msgtype", "OnlineDelivery");
-                    cmd.Parameters.AddWithValue("@branchname", BranchName);
-                    cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
-                    vdm.insert(cmd);
-                }
-                var jsonSerializer = new JavaScriptSerializer();
-                var jsonString = String.Empty;
-                context.Request.InputStream.Position = 0;
-                using (var inputStream = new StreamReader(context.Request.InputStream))
-                {
-                    jsonString = inputStream.ReadToEnd();
-                }
+                ////    // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
+                ////    cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
+                ////    cmd.Parameters.AddWithValue("@agentid", b_bid);
+                ////    cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
+                ////    //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
+                ////    cmd.Parameters.AddWithValue("@msg", message);
+                ////    cmd.Parameters.AddWithValue("@mobileno", phonenumber);
+                ////    cmd.Parameters.AddWithValue("@msgtype", "OnlineDelivery");
+                ////    cmd.Parameters.AddWithValue("@branchname", BranchName);
+                ////    cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
+                ////    vdm.insert(cmd);
+                ////}
+                ////var jsonSerializer = new JavaScriptSerializer();
+                ////var jsonString = String.Empty;
+                ////context.Request.InputStream.Position = 0;
+                ////using (var inputStream = new StreamReader(context.Request.InputStream))
+                ////{
+                ////    jsonString = inputStream.ReadToEnd();
+                ////}
                 string msg = "Saved Successfully";
                 string response = GetJson(msg);
                 context.Response.Write(response);
@@ -2197,116 +2197,116 @@
                             TotalQty += Math.Round(totunitQty, 2);
                         }
                     }
-                    if (phonenumber.Length != 10)
-                    {
-                        cmd = new MySqlCommand("SELECT mobilenotable.PhoneNumber, dispatch.DispName FROM mobilenotable INNER JOIN dispatch ON mobilenotable.DispNo = dispatch.sno WHERE (mobilenotable.DispNo = @DispNo) and (mobilenotable.MsgType=@MsgType)");
-                        cmd.Parameters.AddWithValue("@DispNo", DispatchSno);
-                        cmd.Parameters.AddWithValue("@MsgType", "1");
-                        DataTable dtPhoneNumbers = vdm.SelectQuery(cmd).Tables[0];
-                        if (dtPhoneNumbers.Rows.Count > 0)
-                        {
-                            foreach (DataRow dr in dtPhoneNumbers.Rows)
-                            {
-                                phonenumber = dr["PhoneNumber"].ToString();
-                                DispatchName = dr["DispName"].ToString();
-                                if (phonenumber.Length == 10)
-                                {
-                                    string frmdate = fromdate.ToString("dd/MM/yyyy");
-                                    WebClient client = new WebClient();
-                                    //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
-                                    string BranchSno = context.Session["CsoNo"].ToString();
-                                    if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
-                                    {
-                                        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
+                    ////if (phonenumber.Length != 10)
+                    ////{
+                    ////    cmd = new MySqlCommand("SELECT mobilenotable.PhoneNumber, dispatch.DispName FROM mobilenotable INNER JOIN dispatch ON mobilenotable.DispNo = dispatch.sno WHERE (mobilenotable.DispNo = @DispNo) and (mobilenotable.MsgType=@MsgType)");
+                    ////    cmd.Parameters.AddWithValue("@DispNo", DispatchSno);
+                    ////    cmd.Parameters.AddWithValue("@MsgType", "1");
+                    ////    DataTable dtPhoneNumbers = vdm.SelectQuery(cmd).Tables[0];
+                    ////    if (dtPhoneNumbers.Rows.Count > 0)
+                    ////    {
+                    ////        foreach (DataRow dr in dtPhoneNumbers.Rows)
+                    ////        {
+                    ////            phonenumber = dr["PhoneNumber"].ToString();
+                    ////            DispatchName = dr["DispName"].ToString();
+                    ////            if (phonenumber.Length == 10)
+                    ////            {
+                    ////                string frmdate = fromdate.ToString("dd/MM/yyyy");
+                    ////                WebClient client = new WebClient();
+                    ////                //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
+                    ////                string BranchSno = context.Session["CsoNo"].ToString();
+                    ////                if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
+                    ////                {
+                    ////                    string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
 
-                                        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&type=1";
-                                        Stream data = client.OpenRead(baseurl);
-                                        StreamReader reader = new StreamReader(data);
-                                        string ResponseID = reader.ReadToEnd();
-                                        data.Close();
-                                        reader.Close();
-                                        Thread.Sleep(100);
-                                    }
-                                    else
-                                    {
-                                        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
+                    ////                    //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&type=1";
+                    ////                    Stream data = client.OpenRead(baseurl);
+                    ////                    StreamReader reader = new StreamReader(data);
+                    ////                    string ResponseID = reader.ReadToEnd();
+                    ////                    data.Close();
+                    ////                    reader.Close();
+                    ////                    Thread.Sleep(100);
+                    ////                }
+                    ////                else
+                    ////                {
+                    ////                    string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
 
-                                        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&type=1";
-                                        Stream data = client.OpenRead(baseurl);
-                                        StreamReader reader = new StreamReader(data);
-                                        string ResponseID = reader.ReadToEnd();
-                                        data.Close();
-                                        reader.Close();
-                                        Thread.Sleep(100);
-                                    }
+                    ////                    //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&type=1";
+                    ////                    Stream data = client.OpenRead(baseurl);
+                    ////                    StreamReader reader = new StreamReader(data);
+                    ////                    string ResponseID = reader.ReadToEnd();
+                    ////                    data.Close();
+                    ////                    reader.Close();
+                    ////                    Thread.Sleep(100);
+                    ////                }
 
-                                    string message = "" + DispatchName + "  ,  + Indent  For  Date: " + frmdate + "  Completed " + ProductName + "TotalQty =" + TotalQty + " ";
-                                    // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
-                                    cmd = new MySqlCommand("insert into smsinfo (agentid,branchid,msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
-                                    cmd.Parameters.AddWithValue("@agentid", DispatchSno);
-                                    cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
-                                    //cmd.Parameters.AddWithValue("@mainbranch", context.Session["SuperBranch"].ToString());
-                                    cmd.Parameters.AddWithValue("@msg", message);
-                                    cmd.Parameters.AddWithValue("@mobileno", phonenumber);
-                                    cmd.Parameters.AddWithValue("@msgtype", "IndentReporting");
-                                    cmd.Parameters.AddWithValue("@branchname", DispatchName);
-                                    cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
-                                    vdm.insert(cmd);
-                                }
-                            }
-                            string errmsg = "Message Sent Successfully";
-                            string errresponse = GetJson(errmsg);
-                            context.Response.Write(errresponse);
-                        }
-                    }
-                    else
-                    {
-                        if (phonenumber.Length == 10)
-                        {
-                            string frmdate = fromdate.ToString("dd/MM/yyyy");
-                            WebClient client = new WebClient();
-                            //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
-                            string BranchSno = context.Session["CsoNo"].ToString();
-                            if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
-                            {
-                                string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
+                    ////                string message = "" + DispatchName + "  ,  + Indent  For  Date: " + frmdate + "  Completed " + ProductName + "TotalQty =" + TotalQty + " ";
+                    ////                // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
+                    ////                cmd = new MySqlCommand("insert into smsinfo (agentid,branchid,msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
+                    ////                cmd.Parameters.AddWithValue("@agentid", DispatchSno);
+                    ////                cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
+                    ////                //cmd.Parameters.AddWithValue("@mainbranch", context.Session["SuperBranch"].ToString());
+                    ////                cmd.Parameters.AddWithValue("@msg", message);
+                    ////                cmd.Parameters.AddWithValue("@mobileno", phonenumber);
+                    ////                cmd.Parameters.AddWithValue("@msgtype", "IndentReporting");
+                    ////                cmd.Parameters.AddWithValue("@branchname", DispatchName);
+                    ////                cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
+                    ////                vdm.insert(cmd);
+                    ////            }
+                    ////        }
+                    ////        string errmsg = "Message Sent Successfully";
+                    ////        string errresponse = GetJson(errmsg);
+                    ////        context.Response.Write(errresponse);
+                    ////    }
+                    ////}
+                    ////else
+                    ////{
+                    ////    if (phonenumber.Length == 10)
+                    ////    {
+                    ////        string frmdate = fromdate.ToString("dd/MM/yyyy");
+                    ////        WebClient client = new WebClient();
+                    ////        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
+                    ////        string BranchSno = context.Session["CsoNo"].ToString();
+                    ////        if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
+                    ////        {
+                    ////            string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
 
-                                // string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&type=1";
-                                Stream data = client.OpenRead(baseurl);
-                                StreamReader reader = new StreamReader(data);
-                                string ResponseID = reader.ReadToEnd();
-                                data.Close();
-                                reader.Close();
-                            }
-                            else
-                            {
-                                string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
+                    ////            // string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&type=1";
+                    ////            Stream data = client.OpenRead(baseurl);
+                    ////            StreamReader reader = new StreamReader(data);
+                    ////            string ResponseID = reader.ReadToEnd();
+                    ////            data.Close();
+                    ////            reader.Close();
+                    ////        }
+                    ////        else
+                    ////        {
+                    ////            string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
 
-                                //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&type=1";
-                                Stream data = client.OpenRead(baseurl);
-                                StreamReader reader = new StreamReader(data);
-                                string ResponseID = reader.ReadToEnd();
-                                data.Close();
-                                reader.Close();
-                            }
+                    ////            //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=%20" + DispatchName + "%20,%20 + Indent%20For%20Date:%20" + frmdate + "%20%20Completed%20" + ProductName + "TotalQty =" + TotalQty + "&type=1";
+                    ////            Stream data = client.OpenRead(baseurl);
+                    ////            StreamReader reader = new StreamReader(data);
+                    ////            string ResponseID = reader.ReadToEnd();
+                    ////            data.Close();
+                    ////            reader.Close();
+                    ////        }
 
-                            string message = "" + DispatchName + "  ,  + Indent  For  Date:  " + frmdate + "  Completed  " + ProductName + "TotalQty =" + TotalQty + " ";
-                            // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
-                            cmd = new MySqlCommand("insert into smsinfo (agentid,branchid,msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
-                            cmd.Parameters.AddWithValue("@agentid", DispatchSno);
-                            cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
-                            //cmd.Parameters.AddWithValue("@mainbranch", context.Session["SuperBranch"].ToString());
-                            cmd.Parameters.AddWithValue("@msg", message);
-                            cmd.Parameters.AddWithValue("@mobileno", phonenumber);
-                            cmd.Parameters.AddWithValue("@msgtype", "IndentReporting");
-                            cmd.Parameters.AddWithValue("@branchname", DispatchName);
-                            cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
-                            vdm.insert(cmd);
-                            string errmsg = "Message Sent Successfully";
-                            string errresponse = GetJson(errmsg);
-                            context.Response.Write(errresponse);
-                        }
-                    }
+                    ////        string message = "" + DispatchName + "  ,  + Indent  For  Date:  " + frmdate + "  Completed  " + ProductName + "TotalQty =" + TotalQty + " ";
+                    ////        // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
+                    ////        cmd = new MySqlCommand("insert into smsinfo (agentid,branchid,msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
+                    ////        cmd.Parameters.AddWithValue("@agentid", DispatchSno);
+                    ////        cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
+                    ////        //cmd.Parameters.AddWithValue("@mainbranch", context.Session["SuperBranch"].ToString());
+                    ////        cmd.Parameters.AddWithValue("@msg", message);
+                    ////        cmd.Parameters.AddWithValue("@mobileno", phonenumber);
+                    ////        cmd.Parameters.AddWithValue("@msgtype", "IndentReporting");
+                    ////        cmd.Parameters.AddWithValue("@branchname", DispatchName);
+                    ////        cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
+                    ////        vdm.insert(cmd);
+                    ////        string errmsg = "Message Sent Successfully";
+                    ////        string errresponse = GetJson(errmsg);
+                    ////        context.Response.Write(errresponse);
+                    ////    }
+                    ////}
                 }
             }
             catch (Exception ex)
@@ -4751,58 +4751,58 @@
                             TotalQty += Math.Round(RemainQty, 2);
                         }
                     }
-                    if (phonenumber.Length == 10)
-                    {
+                    ////if (phonenumber.Length == 10)
+                    ////{
 
-                        string BranchSno = context.Session["CsoNo"].ToString();
-                        if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
-                        {
+                    ////    string BranchSno = context.Session["CsoNo"].ToString();
+                    ////    if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
+                    ////    {
 
-                            WebClient client = new WebClient();
-                            //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
-                            string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + EmpName + "%20,%20" + DispName + "%20 + Dispatch%20Completed%20Successfully%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
+                    ////        WebClient client = new WebClient();
+                    ////        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
+                    ////        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + EmpName + "%20,%20" + DispName + "%20 + Dispatch%20Completed%20Successfully%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
 
-                            // string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=Dear%20" + EmpName + "%20,%20" + DispName + "%20 + Dispatch%20Completed%20Successfully%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&type=1";
-                            Stream data = client.OpenRead(baseurl);
-                            StreamReader reader = new StreamReader(data);
-                            string ResponseID = reader.ReadToEnd();
-                            data.Close();
-                            reader.Close();
-                        }
-                        else
-                        {
-                            WebClient client = new WebClient();
-                            //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
-                            string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + EmpName + "%20,%20" + DispName + "%20 + Dispatch%20Completed%20Successfully%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
-                            // string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=Dear%20" + EmpName + "%20,%20" + DispName + "%20 + Dispatch%20Completed%20Successfully%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&type=1";
-                            Stream data = client.OpenRead(baseurl);
-                            StreamReader reader = new StreamReader(data);
-                            string ResponseID = reader.ReadToEnd();
-                            data.Close();
-                            reader.Close();
-                        }
+                    ////        // string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=Dear%20" + EmpName + "%20,%20" + DispName + "%20 + Dispatch%20Completed%20Successfully%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&type=1";
+                    ////        Stream data = client.OpenRead(baseurl);
+                    ////        StreamReader reader = new StreamReader(data);
+                    ////        string ResponseID = reader.ReadToEnd();
+                    ////        data.Close();
+                    ////        reader.Close();
+                    ////    }
+                    ////    else
+                    ////    {
+                    ////        WebClient client = new WebClient();
+                    ////        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
+                    ////        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + EmpName + "%20,%20" + DispName + "%20 + Dispatch%20Completed%20Successfully%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
+                    ////        // string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=Dear%20" + EmpName + "%20,%20" + DispName + "%20 + Dispatch%20Completed%20Successfully%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&type=1";
+                    ////        Stream data = client.OpenRead(baseurl);
+                    ////        StreamReader reader = new StreamReader(data);
+                    ////        string ResponseID = reader.ReadToEnd();
+                    ////        data.Close();
+                    ////        reader.Close();
+                    ////    }
 
-                        string message = "  Dear " + EmpName + " ,   " + DispName + "  + Dispatch Completed Successfully " + Date + " , " + ProductName + "Total Ltrs =" + TotalQty + " ";
-                        // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
-                        cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
-                        cmd.Parameters.AddWithValue("@agentid", empid);
-                        cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
-                        //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
-                        cmd.Parameters.AddWithValue("@msg", message);
-                        cmd.Parameters.AddWithValue("@mobileno", phonenumber);
-                        cmd.Parameters.AddWithValue("@msgtype", "OnlineDispatch");
-                        cmd.Parameters.AddWithValue("@branchname", EmpName);
-                        cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
-                        vdm.insert(cmd);
-                    }
-                    var jsonSerializer = new JavaScriptSerializer();
-                    var jsonString = String.Empty;
-                    context.Request.InputStream.Position = 0;
-                    using (var inputStream = new StreamReader(context.Request.InputStream))
-                    {
-                        jsonString = inputStream.ReadToEnd();
-                    }
-                    List<string> MsgList = new List<string>();
+                    ////    string message = "  Dear " + EmpName + " ,   " + DispName + "  + Dispatch Completed Successfully " + Date + " , " + ProductName + "Total Ltrs =" + TotalQty + " ";
+                    ////    // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
+                    ////    cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
+                    ////    cmd.Parameters.AddWithValue("@agentid", empid);
+                    ////    cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
+                    ////    //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
+                    ////    cmd.Parameters.AddWithValue("@msg", message);
+                    ////    cmd.Parameters.AddWithValue("@mobileno", phonenumber);
+                    ////    cmd.Parameters.AddWithValue("@msgtype", "OnlineDispatch");
+                    ////    cmd.Parameters.AddWithValue("@branchname", EmpName);
+                    ////    cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
+                    ////    vdm.insert(cmd);
+                    ////}
+                    ////var jsonSerializer = new JavaScriptSerializer();
+                    ////var jsonString = String.Empty;
+                    ////context.Request.InputStream.Position = 0;
+                    ////using (var inputStream = new StreamReader(context.Request.InputStream))
+                    ////{
+                    ////    jsonString = inputStream.ReadToEnd();
+                    ////}
+                    ////List<string> MsgList = new List<string>();
                     string msg = "Data Successfully Saved";
                     string response = GetJson(msg);
                     context.Response.Write(response);
@@ -6895,17 +6895,17 @@
                             reader.Close();
 
                             string message = " " + phonenumber + " Dear " + BranchName + " Your Collection" + TotPaidAmount + " for today Date " + Date + " if any changes please call ";
-                            // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
-                            cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
-                            cmd.Parameters.AddWithValue("@agentid", Agentid);
-                            cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
-                            //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
-                            cmd.Parameters.AddWithValue("@msg", message);
-                            cmd.Parameters.AddWithValue("@mobileno", phonenumber);
-                            cmd.Parameters.AddWithValue("@msgtype", "OnlineCollections");
-                            cmd.Parameters.AddWithValue("@branchname", BranchName);
-                            cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
-                            vdm.insert(cmd);
+                            ////// string text = message.Replace("\n", "\n" + System.Environment.NewLine);
+                            ////cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
+                            ////cmd.Parameters.AddWithValue("@agentid", Agentid);
+                            ////cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
+                            //////cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
+                            ////cmd.Parameters.AddWithValue("@msg", message);
+                            ////cmd.Parameters.AddWithValue("@mobileno", phonenumber);
+                            ////cmd.Parameters.AddWithValue("@msgtype", "OnlineCollections");
+                            ////cmd.Parameters.AddWithValue("@branchname", BranchName);
+                            ////cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
+                            ////vdm.insert(cmd);
                         }
                     }
                 }
@@ -8766,56 +8766,56 @@
                             }
                         }
                     }
-                    if (phonenumber.Length == 10)
-                    {
-                        string Date = DateTime.Now.ToString("dd/MM/yyyy"); ;
-                        WebClient client = new WebClient();
+                    ////if (phonenumber.Length == 10)
+                    ////{
+                    ////    string Date = DateTime.Now.ToString("dd/MM/yyyy"); ;
+                    ////    WebClient client = new WebClient();
 
-                        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
+                    ////    //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
 
-                        string BranchSno = context.Session["CsoNo"].ToString();
-                        if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
-                        {
-                            string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "Your%20indent%20delivery%20for%20today" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
-                            //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=Dear%20" + BranchName + "Your%20indent%20delivery%20for%20today" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&type=1";
-                            Stream data = client.OpenRead(baseurl);
-                            StreamReader reader = new StreamReader(data);
-                            string ResponseID = reader.ReadToEnd();
-                            data.Close();
-                            reader.Close();
-                        }
-                        else
-                        {
-                            string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "Your%20indent%20delivery%20for%20today" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
-                            //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=Dear%20" + BranchName + "Your%20indent%20delivery%20for%20today" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&type=1";
-                            Stream data = client.OpenRead(baseurl);
-                            StreamReader reader = new StreamReader(data);
-                            string ResponseID = reader.ReadToEnd();
-                            data.Close();
-                            reader.Close();
-                        }
+                    ////    string BranchSno = context.Session["CsoNo"].ToString();
+                    ////    if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
+                    ////    {
+                    ////        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "Your%20indent%20delivery%20for%20today" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
+                    ////        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=Dear%20" + BranchName + "Your%20indent%20delivery%20for%20today" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&type=1";
+                    ////        Stream data = client.OpenRead(baseurl);
+                    ////        StreamReader reader = new StreamReader(data);
+                    ////        string ResponseID = reader.ReadToEnd();
+                    ////        data.Close();
+                    ////        reader.Close();
+                    ////    }
+                    ////    else
+                    ////    {
+                    ////        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "Your%20indent%20delivery%20for%20today" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&sender=VYSNVI&type=1&route=2";
+                    ////        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=Dear%20" + BranchName + "Your%20indent%20delivery%20for%20today" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "&type=1";
+                    ////        Stream data = client.OpenRead(baseurl);
+                    ////        StreamReader reader = new StreamReader(data);
+                    ////        string ResponseID = reader.ReadToEnd();
+                    ////        data.Close();
+                    ////        reader.Close();
+                    ////    }
 
-                        string message = "Dear " + BranchName + "Your  indent delivery for today" + Date + "  ,  " + ProductName + "Total Ltrs =" + TotalQty + " ";
+                    ////    string message = "Dear " + BranchName + "Your  indent delivery for today" + Date + "  ,  " + ProductName + "Total Ltrs =" + TotalQty + " ";
 
-                        // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
-                        cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
-                        cmd.Parameters.AddWithValue("@agentid", b_bid);
-                        cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
-                        //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
-                        cmd.Parameters.AddWithValue("@msg", message);
-                        cmd.Parameters.AddWithValue("@mobileno", phonenumber);
-                        cmd.Parameters.AddWithValue("@msgtype", "OnlineDelivery");
-                        cmd.Parameters.AddWithValue("@branchname", BranchName);
-                        cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
-                        vdm.insert(cmd);
-                    }
-                    var jsonSerializer = new JavaScriptSerializer();
-                    var jsonString = String.Empty;
-                    context.Request.InputStream.Position = 0;
-                    using (var inputStream = new StreamReader(context.Request.InputStream))
-                    {
-                        jsonString = inputStream.ReadToEnd();
-                    }
+                    ////    // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
+                    ////    cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
+                    ////    cmd.Parameters.AddWithValue("@agentid", b_bid);
+                    ////    cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
+                    ////    //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
+                    ////    cmd.Parameters.AddWithValue("@msg", message);
+                    ////    cmd.Parameters.AddWithValue("@mobileno", phonenumber);
+                    ////    cmd.Parameters.AddWithValue("@msgtype", "OnlineDelivery");
+                    ////    cmd.Parameters.AddWithValue("@branchname", BranchName);
+                    ////    cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
+                    ////    vdm.insert(cmd);
+                    ////}
+                    ////var jsonSerializer = new JavaScriptSerializer();
+                    ////var jsonString = String.Empty;
+                    ////context.Request.InputStream.Position = 0;
+                    ////using (var inputStream = new StreamReader(context.Request.InputStream))
+                    ////{
+                    ////    jsonString = inputStream.ReadToEnd();
+                    ////}
                     string msg = "Data Successfully Saved";
                     MsgList.Add(msg);
                     string response = GetJson(MsgList);
@@ -9217,53 +9217,53 @@
                     {
                         InvName += dr["InvName"].ToString() + "=" + dr["Qty"].ToString() + ";";
                     }
-                    if (phonenumber.Length == 10)
-                    {
-                        string Date = DateTime.Now.ToString("dd/MM/yyyy"); ;
-                        WebClient client = new WebClient();
-                        string BranchSno = context.Session["CsoNo"].ToString();
-                        if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
-                        {
-                            //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
-                            string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&sender=VYSNVI&type=1&route=2";
-                            // string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&type=1";
-                            Stream data = client.OpenRead(baseurl);
-                            StreamReader reader = new StreamReader(data);
-                            string ResponseID = reader.ReadToEnd();
-                            data.Close();
-                            reader.Close();
-                        }
-                        else
-                        {
-                            string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&sender=VYSNVI&type=1&route=2";
-                            //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&type=1";
-                            Stream data = client.OpenRead(baseurl);
-                            StreamReader reader = new StreamReader(data);
-                            string ResponseID = reader.ReadToEnd();
-                            data.Close();
-                            reader.Close();
-                        }
-                        string message = "Dear  " + BranchName + " DCNO: " + DcNo + "  Your  indent delivery for today " + Date + "  ,  " + ProductName + "Total  Ltrs =" + TotalQty + " Sale  Value  " + Salevalue + "  With  Bal  Inventory " + InvName + "";
+                    ////if (phonenumber.Length == 10)
+                    ////{
+                    ////    string Date = DateTime.Now.ToString("dd/MM/yyyy"); ;
+                    ////    WebClient client = new WebClient();
+                    ////    string BranchSno = context.Session["CsoNo"].ToString();
+                    ////    if (BranchSno == "4609" || BranchSno == "3625" || BranchSno == "2948" || BranchSno == "172" || BranchSno == "282" || BranchSno == "271" || BranchSno == "174" || BranchSno == "3928" || BranchSno == "285" || BranchSno == "527" || BranchSno == "4607" || BranchSno == "306" || BranchSno == "538" || BranchSno == "2749" || BranchSno == "1801")
+                    ////    {
+                    ////        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VYSNVI&to=" + MobNo + "&message=%20" + msg + "&response=Y";
+                    ////        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&sender=VYSNVI&type=1&route=2";
+                    ////        // string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VSALES&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&type=1";
+                    ////        Stream data = client.OpenRead(baseurl);
+                    ////        StreamReader reader = new StreamReader(data);
+                    ////        string ResponseID = reader.ReadToEnd();
+                    ////        data.Close();
+                    ////        reader.Close();
+                    ////    }
+                    ////    else
+                    ////    {
+                    ////        string baseurl = "http://roundsms.com/api/sendhttp.php?authkey=Y2U3NGE2MGFkM2V&mobiles=" + phonenumber + "&message=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&sender=VYSNVI&type=1&route=2";
+                    ////        //string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=vyshnavi@123&from=VFWYRA&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20DCNO:%20" + DcNo + "%20Your%20indent%20delivery%20for%20today%20" + Date + "%20,%20" + ProductName + "Total%20Ltrs =" + TotalQty + "Sale%20Value%20" + Salevalue + "%20With%20Bal%20Inventory%20" + InvName + "&type=1";
+                    ////        Stream data = client.OpenRead(baseurl);
+                    ////        StreamReader reader = new StreamReader(data);
+                    ////        string ResponseID = reader.ReadToEnd();
+                    ////        data.Close();
+                    ////        reader.Close();
+                    ////    }
+                    ////    string message = "Dear  " + BranchName + " DCNO: " + DcNo + "  Your  indent delivery for today " + Date + "  ,  " + ProductName + "Total  Ltrs =" + TotalQty + " Sale  Value  " + Salevalue + "  With  Bal  Inventory " + InvName + "";
 
-                        // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
-                        cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
-                        cmd.Parameters.AddWithValue("@agentid", b_bid);
-                        cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
-                        //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
-                        cmd.Parameters.AddWithValue("@msg", message);
-                        cmd.Parameters.AddWithValue("@mobileno", phonenumber);
-                        cmd.Parameters.AddWithValue("@msgtype", "OnlineDelivery");
-                        cmd.Parameters.AddWithValue("@branchname", BranchName);
-                        cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
-                        vdm.insert(cmd);
-                    }
-                    var jsonSerializer = new JavaScriptSerializer();
-                    var jsonString = String.Empty;
-                    context.Request.InputStream.Position = 0;
-                    using (var inputStream = new StreamReader(context.Request.InputStream))
-                    {
-                        jsonString = inputStream.ReadToEnd();
-                    }
+                    ////    // string text = message.Replace("\n", "\n" + System.Environment.NewLine);
+                    ////    cmd = new MySqlCommand("insert into smsinfo (agentid,branchid, msg,mobileno,msgtype,branchname,doe) values (@agentid,@branchid,@msg,@mobileno,@msgtype,@branchname,@doe)");
+                    ////    cmd.Parameters.AddWithValue("@agentid", b_bid);
+                    ////    cmd.Parameters.AddWithValue("@branchid", context.Session["CsoNo"].ToString());
+                    ////    //cmd.Parameters.AddWithValue("@mainbranch", Session["SuperBranch"].ToString());
+                    ////    cmd.Parameters.AddWithValue("@msg", message);
+                    ////    cmd.Parameters.AddWithValue("@mobileno", phonenumber);
+                    ////    cmd.Parameters.AddWithValue("@msgtype", "OnlineDelivery");
+                    ////    cmd.Parameters.AddWithValue("@branchname", BranchName);
+                    ////    cmd.Parameters.AddWithValue("@doe", ServerDateCurrentdate);
+                    ////    vdm.insert(cmd);
+                    ////}
+                    ////var jsonSerializer = new JavaScriptSerializer();
+                    ////var jsonString = String.Empty;
+                    ////context.Request.InputStream.Position = 0;
+                    ////using (var inputStream = new StreamReader(context.Request.InputStream))
+                    ////{
+                    ////    jsonString = inputStream.ReadToEnd();
+                    ////}
                     string msg = "Data Successfully Updated";
                     MsgList.Add(msg);
                     string response = GetJson(MsgList);
