@@ -7870,6 +7870,20 @@
                     int DataCount = obj.data.Count;
                     string ProductName = "";
                     double TotalQty = 0;
+                    //foreach (orderdetail o in obj.data)
+                    //{
+                    //    if (o.ReturnQty != "0")
+                    //    {
+                    //        float ReturnQty = 0;
+                    //        float.TryParse(o.ReturnQty, out ReturnQty);
+                    //        ProductName += o.Product + "=" + Math.Round(ReturnQty, 2) + ";";
+                    //        TotalQty += Math.Round(ReturnQty, 2);
+                    //    }
+                    //}
+
+
+
+
                     foreach (orderdetail o in obj.data)
                     {
                         if (o.ReturnQty != "0")
@@ -7879,13 +7893,6 @@
                             ProductName += o.Product + "=" + Math.Round(ReturnQty, 2) + ";";
                             TotalQty += Math.Round(ReturnQty, 2);
                         }
-                    }
-
-
-
-
-                    foreach (orderdetail o in obj.data)
-                    {
                         if (o.Productsno != null)
                         {
                             string ind = "0";
@@ -7907,30 +7914,15 @@
                                 float.TryParse(o.Rate, out UnitCost);//stroing ltr_rate from indent_subtable table getting values from bind function
                                 cmd.Parameters.AddWithValue("@UnitCost", UnitCost);
                                 float.TryParse(o.ReturnQty, out Returnqty);
-
-                                //added ltr_Qty from packet for inserting DeliveryQty value
-                                //float pkt_qty = 0;  //have
-                                //float Uom_qty = 0;
-                                //float.TryParse(o.UnitQty, out Uom_qty);
-                                //pkt_qty = Returnqty * Uom_qty / 1000;
-
                                 cmd.Parameters.AddWithValue("@DeliveryQty", Returnqty);//storing ltrqty from indent_subtable getting values from bind function
                                 float Leak = 0;
                                 float.TryParse(o.LeakQty, out Leak);
                                 cmd.Parameters.AddWithValue("@LeakQty", Leak);
                                 cmd.Parameters.AddWithValue("@DTripId", context.Session["TripdataSno"].ToString());
                                 cmd.Parameters.AddWithValue("@Status", o.Status);
-
-                                ////comment by akbar packet Qty from ltrs for inserting pkt_dqty value
-                                //float pkt_qty = 0;  //have
-                                //float Uom_qty = 0;
-                                //float.TryParse(o.Units, out Uom_qty);
-                                //pkt_qty = Returnqty * 1000 / Uom_qty;
-                                //added by akbar savaing pkt_dqty30-03-2023
                                 cmd.Parameters.AddWithValue("@pkt_rate", o.orderunitRate);
                                 cmd.Parameters.AddWithValue("@tub_qty", o.tubQty);
                                 cmd.Parameters.AddWithValue("@pkt_dqty", o.PktQty);
-
 
                                 if (o.Status == "Pending")
                                 {
@@ -7943,9 +7935,10 @@
                                 cmd.Parameters.AddWithValue("@DelTime", ServerDateCurrentdate);
                                 cmd.Parameters.AddWithValue("@D_date", ServerDateCurrentdate);
                                 vdm.Update(cmd);
-
-                                foreach (DataRow dr in dtDelivers.Rows)
+                                foreach (DataRow dr in dtDelivers.Select("Product_sno='" + o.Productsno + "'"))
                                 {
+                                //    foreach (DataRow dr in dtDelivers.Rows)
+                                //{
                                     string Status = dr["Status"].ToString();
 
                                     if (Status == "Delivered")
@@ -7953,8 +7946,8 @@
                                         string Prodsno = dr["Product_sno"].ToString();
                                         string Psno = o.Productsno;
 
-                                        if (Prodsno == Psno)
-                                        {
+                                        //if (Prodsno == Psno)
+                                        //{
                                             float Aqty = 0;
                                             float.TryParse(dr["DeliveryQty"].ToString(), out Aqty);
                                             float Eqty = 0;
@@ -8019,8 +8012,7 @@
                                             {
 
                                                 TQty = Math.Abs(TQty);
-                                                //double T_Qty = Convert.ToDouble(TQty);
-                                                //T_Qty = Math.Round(T_Qty, 2);
+                                                
                                                 double TotIndentcost = TQty * UnitCost;
                                                 TotIndentcost = Math.Round(TotIndentcost, 2);
                                                 cmd = new MySqlCommand("Update branchaccounts set Amount=Amount+@Amount where BranchId=@BranchId");
@@ -8070,7 +8062,7 @@
                                                     vdm.insert(cmd);
                                                 }
                                             }
-                                        }
+                                        //}
                                     }
                                     if (Status == "Ordered")
                                     {
@@ -8095,8 +8087,8 @@
 
                                         string Prodsno = dr["Product_sno"].ToString();
                                         string Psno = o.Productsno;
-                                        if (Prodsno == Psno)
-                                        {
+                                        //if (Prodsno == Psno)
+                                        //{
                                             cmd = new MySqlCommand("Update branchaccounts set Amount=Amount+@Amount where BranchId=@BranchId");
                                             float TotRate = 0;
                                             TotRate = UnitCost * Returnqty;
@@ -8110,7 +8102,6 @@
                                                 vdm.insert(cmd);
                                             }
                                             //naveen kumar
-                                            //cmd = new MySqlCommand("Update agent_bal_trans set salesvalue=salesvalue+@Amount, clo_balance=clo_balance+@Amount  where agentid=@BranchId");
                                             cmd = new MySqlCommand("UPDATE agent_bal_trans set salesvalue=salesvalue+@Amount, clo_balance=clo_balance+@Amount,modified_line=@modified_by  where agentid=@BranchId AND inddate=@inddate");
                                             cmd.Parameters.AddWithValue("@inddate", loginindentdate);
                                             cmd.Parameters.AddWithValue("@Amount", TotRate);
@@ -8150,9 +8141,7 @@
                                             int moduleid = 1;
                                             if (vdm.Update(cmd) == 0)
                                             {
-                                                // cmd = new MySqlCommand("SELECT IFNULL(MAX(agentdcno), 0) + 1 AS Sno FROM agentdc WHERE (soid = @BranchID) AND (IndDate BETWEEN @d1 AND @d2)");
                                                 cmd = new MySqlCommand("SELECT IFNULL(MAX(agentdcno), 0) + 1 AS Sno FROM agentdc WHERE (soid = @BranchID)   AND (IndDate BETWEEN @d1 AND @d2)");
-                                                //cmd.Parameters.AddWithValue("@BranchID", context.Session["CsoNo"].ToString());
                                                 cmd.Parameters.AddWithValue("@BranchID", context.Session["CsoNo"].ToString());
                                                 cmd.Parameters.AddWithValue("@d1", GetLowDate(dtapril.AddDays(-1)));
                                                 cmd.Parameters.AddWithValue("@d2", GetHighDate(dtmarch.AddDays(-1)));
@@ -8186,7 +8175,7 @@
                                                     long.TryParse(dtAgentDc.Rows[0]["DcNo"].ToString(), out DcNo);
                                                 }
                                             }
-                                        }
+                                        //}
                                     }
                                 }
                             }
@@ -8236,12 +8225,6 @@
                                     cmd.Parameters.AddWithValue("@unitQty", unitQty);
                                     float UnitCost = 0;
                                     float.TryParse(o.Rate, out UnitCost);
-
-                                    ////added packet Qty from ltrs for inserting pkt_dqty value
-                                    //float pkt_qty = 0;
-                                    //float Uom_qty = 0;
-                                    //float.TryParse(o.Units, out Uom_qty);
-                                    //pkt_qty = Returnqty * 1000 / Uom_qty;
 
                                     cmd.Parameters.AddWithValue("@DTripId", context.Session["TripdataSno"].ToString());
                                     cmd.Parameters.AddWithValue("@UnitCost", UnitCost);//storing ltr_rate from  indent_subtable getting values from bind function
@@ -8337,12 +8320,14 @@
                                                         vdm.insert(cmd);
                                                     }
                                                 }//modification for addning new product from existing indent for updating sale,closing branch_acc,agent_bal_trans  akbar & ravindra 
-                                                foreach (DataRow dr in dtDelivers.Rows)
+                                                foreach (DataRow dr in dtDelivers.Select("Product_sno='" + o.Productsno + "'"))
                                                 {
+                                                //    foreach (DataRow dr in dtDelivers.Rows)
+                                                //{
                                                     string Prodsno = dr["Product_sno"].ToString();
                                                     string Psno = o.Productsno;
-                                                    if (Prodsno == Psno)
-                                                    {
+                                                    //if (Prodsno == Psno)
+                                                    //{
                                                         float Aqty = 0;
                                                         float.TryParse(dr["DeliveryQty"].ToString(), out Aqty);
                                                         float Eqty = 0;
@@ -8451,11 +8436,11 @@
                                                                 vdm.insert(cmd);
                                                             }
                                                         }
-                                                    }
-                                                    else //akbar 
-                                                    {
+                                                    //}
+                                                    //else //akbar 
+                                                    //{
                                                         
-                                                    }//akbar 
+                                                    //}//akbar 
                                                 }
                                             }
                                             else
@@ -8572,49 +8557,51 @@
                                 }
                             }
                         }
-                        if (dtDelivers != null)
-                        {
-                            foreach (DataRow dr in dtDelivers.Rows)
-                            {
-                                string Prodsno = dr["Product_sno"].ToString();
-                                string Psno = o.Productsno;
-                                if (Prodsno == Psno)
-                                {
-                                    float Aqty = 0;
-                                    float.TryParse(dr["unitQty"].ToString(), out Aqty);
-                                    float Eqty = 0;
-                                    float.TryParse(o.ReturnQty, out Eqty);
-                                    float Lqty = 0;
-                                    float.TryParse(o.LeakQty, out Lqty);
-                                    float TQty = Eqty + Lqty;
-                                    if (Aqty != Eqty)
-                                    {
-                                        cmd = new MySqlCommand("Update  EditedDelivery set Prodsno=@Prodsno,DEntryTime=@DEntryTime,DeliveryQty=@DeliveryQty,DEditQty=@DEditQty where BranchID=@BranchID and IndentNo=@IndentNo");
-                                        int IndentNo = 0;
-                                        int.TryParse(o.IndentNo, out IndentNo);
-                                        cmd.Parameters.AddWithValue("@IndentNo", IndentNo);
-                                        cmd.Parameters.AddWithValue("@Prodsno", o.Productsno);
-                                        cmd.Parameters.AddWithValue("@BranchID", b_bid);
-                                        cmd.Parameters.AddWithValue("@DEntryTime", ServerDateCurrentdate);
-                                        cmd.Parameters.AddWithValue("@DeliveryQty", Aqty);
-                                        cmd.Parameters.AddWithValue("@DEditQty", Eqty);
-                                        if (vdm.Update(cmd) == 0)
-                                        {
-                                            cmd = new MySqlCommand("insert into EditedDelivery (IndentNo,Prodsno,BranchID,DEntryTime,DeliveryQty,DEditQty)values(@IndentNo,@Prodsno,@BranchID,@DEntryTime,@DeliveryQty,@DEditQty)");
-                                            cmd.Parameters.AddWithValue("@IndentNo", IndentNo);
-                                            cmd.Parameters.AddWithValue("@Prodsno", o.Productsno);
-                                            cmd.Parameters.AddWithValue("@BranchID", b_bid);
-                                            cmd.Parameters.AddWithValue("@DEntryTime", ServerDateCurrentdate);
-                                            float.TryParse(dr["unitQty"].ToString(), out Aqty);
-                                            cmd.Parameters.AddWithValue("@DeliveryQty", Aqty);
-                                            //float.TryParse(o.ReturnQty, out Eqty);
-                                            cmd.Parameters.AddWithValue("@DEditQty", Eqty);
-                                            vdm.insert(cmd);
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        //if (dtDelivers != null)
+                        //{
+                        //    foreach (DataRow dr in dtDelivers.Select("Product_sno='" + o.Productsno + "'"))
+                        //    {
+                        //    //    foreach (DataRow dr in dtDelivers.Rows)
+                        //    //{
+                        //        string Prodsno = dr["Product_sno"].ToString();
+                        //        string Psno = o.Productsno;
+                        //        if (Prodsno == Psno)
+                        //        {
+                        //            float Aqty = 0;
+                        //            float.TryParse(dr["unitQty"].ToString(), out Aqty);
+                        //            float Eqty = 0;
+                        //            float.TryParse(o.ReturnQty, out Eqty);
+                        //            float Lqty = 0;
+                        //            float.TryParse(o.LeakQty, out Lqty);
+                        //            float TQty = Eqty + Lqty;
+                        //            //if (Aqty != Eqty)
+                        //            //{
+                        //            //    cmd = new MySqlCommand("Update  EditedDelivery set Prodsno=@Prodsno,DEntryTime=@DEntryTime,DeliveryQty=@DeliveryQty,DEditQty=@DEditQty where BranchID=@BranchID and IndentNo=@IndentNo");
+                        //            //    int IndentNo = 0;
+                        //            //    int.TryParse(o.IndentNo, out IndentNo);
+                        //            //    cmd.Parameters.AddWithValue("@IndentNo", IndentNo);
+                        //            //    cmd.Parameters.AddWithValue("@Prodsno", o.Productsno);
+                        //            //    cmd.Parameters.AddWithValue("@BranchID", b_bid);
+                        //            //    cmd.Parameters.AddWithValue("@DEntryTime", ServerDateCurrentdate);
+                        //            //    cmd.Parameters.AddWithValue("@DeliveryQty", Aqty);
+                        //            //    cmd.Parameters.AddWithValue("@DEditQty", Eqty);
+                        //            //    if (vdm.Update(cmd) == 0)
+                        //            //    {
+                        //            //        cmd = new MySqlCommand("insert into EditedDelivery (IndentNo,Prodsno,BranchID,DEntryTime,DeliveryQty,DEditQty)values(@IndentNo,@Prodsno,@BranchID,@DEntryTime,@DeliveryQty,@DEditQty)");
+                        //            //        cmd.Parameters.AddWithValue("@IndentNo", IndentNo);
+                        //            //        cmd.Parameters.AddWithValue("@Prodsno", o.Productsno);
+                        //            //        cmd.Parameters.AddWithValue("@BranchID", b_bid);
+                        //            //        cmd.Parameters.AddWithValue("@DEntryTime", ServerDateCurrentdate);
+                        //            //        float.TryParse(dr["unitQty"].ToString(), out Aqty);
+                        //            //        cmd.Parameters.AddWithValue("@DeliveryQty", Aqty);
+                        //            //        //float.TryParse(o.ReturnQty, out Eqty);
+                        //            //        cmd.Parameters.AddWithValue("@DEditQty", Eqty);
+                        //            //        vdm.insert(cmd);
+                        //            //    }
+                        //            //}
+                        //        }
+                        //    }
+                        //}
                         cmd = new MySqlCommand("update tripsubdata set DeliverQty=DeliverQty+@DeliverQty where ProductId=@ProductId and Tripdata_sno=@Tripdata_sno");
                         float deliverQty = 0;
                         float.TryParse(o.ReturnQty, out deliverQty);
@@ -8626,34 +8613,6 @@
                         int.TryParse(context.Session["TripdataSno"].ToString(), out TripdataSno);
                         cmd.Parameters.AddWithValue("@Tripdata_sno", TripdataSno);
                         vdm.Update(cmd);
-                        string SalesType = context.Session["Salestype"].ToString();
-                        if (SalesType == "Plant")
-                        {
-                            //cmd = new MySqlCommand("update branchproducts set manufact_remaining_qty=@manufact_remaining_qty where Product_sno=@Product_sno and branch_sno=@branch_sno");
-                            //float ReturnQty = 0;
-                            //float.TryParse(o.ReturnQty, out ReturnQty);
-                            //cmd.Parameters.AddWithValue("@manufact_remaining_qty", ReturnQty);
-                            //cmd.Parameters.AddWithValue("@Product_sno", o.Productsno);
-                            //cmd.Parameters.AddWithValue("@branch_sno", BranchID);
-                            //if (vdm.Update(cmd) == 0)
-                            //{
-                            //    cmd = new MySqlCommand("Insert into branchproducts (manufact_remaining_qty,Product_sno,branch_sno) values(@manufact_remaining_qty,@Product_sno,@branch_sno)");
-                            //    cmd.Parameters.AddWithValue("@manufact_remaining_qty", ReturnQty);
-                            //    cmd.Parameters.AddWithValue("@Product_sno", o.Productsno);
-                            //    cmd.Parameters.AddWithValue("@branch_sno", BranchID);
-                            //    vdm.insert(cmd);
-                            //}
-                        }
-                        if (SalesType == "SALES OFFICE")
-                        {
-                            //cmd = new MySqlCommand("update branchproducts set manufact_remaining_qty=manufact_remaining_qty-@manufact_remaining_qty where Product_sno=@Product_sno and branch_sno=@branch_sno");
-                            //float ReturnQty = 0;
-                            //float.TryParse(o.ReturnQty, out ReturnQty);
-                            //cmd.Parameters.AddWithValue("@manufact_remaining_qty", ReturnQty);
-                            //cmd.Parameters.AddWithValue("@Product_sno", o.Productsno);
-                            //cmd.Parameters.AddWithValue("@branch_sno", BranchID);
-                            //vdm.Update(cmd);
-                        }
                     }
                     /////// .........CHANGE..........////////////
                     DataTable dtPrevInventory = new DataTable();
@@ -8662,10 +8621,6 @@
                     cmd.Parameters.AddWithValue("@BranchID", BranchID);
                     cmd.Parameters.AddWithValue("@FromTran", context.Session["TripdataSno"].ToString());
                     cmd.Parameters.AddWithValue("@ToTrans", BranchID);
-                    ////cmd = new MySqlCommand("SELECT invmaster.InvName, invmaster.sno, invtransactions.Qty,invtransactions.TodayQty, inventory_monitor.Qty AS BranchQty FROM invmaster INNER JOIN invtransactions ON invmaster.sno = invtransactions.B_Inv_Sno INNER JOIN inventory_monitor ON invtransactions.BranchId = inventory_monitor.BranchId WHERE (inventory_monitor.BranchId = @BranchId) AND (invtransactions.Status =@Status)  AND (invtransactions.TripID = @TripID)GROUP BY invmaster.InvName");
-                    ////cmd.Parameters.AddWithValue("@Status", 'D');
-                    ////cmd.Parameters.AddWithValue("@BranchId", BranchID);
-                    ////cmd.Parameters.AddWithValue("@TripID", context.Session["TripdataSno"].ToString());
                     dtPrevInventory = vdm.SelectQuery(cmd).Tables[0];
 
                     foreach (Inventorydetail o in obj.Inventorydetails)
@@ -8675,11 +8630,12 @@
                         }
                         else
                         {
-
                             if (dtPrevInventory.Rows.Count > 0)
                             {
-                                foreach (DataRow dr in dtPrevInventory.Rows)
+                                foreach (DataRow dr in dtPrevInventory.Select("sno='" + o.InvSno + "'"))
                                 {
+                                //    foreach (DataRow dr in dtPrevInventory.Rows)
+                                //{
                                     string InvSno = o.InvSno;
                                     string PInvSno = dr["sno"].ToString();
                                     if (InvSno == PInvSno)
