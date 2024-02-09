@@ -7924,14 +7924,14 @@
                                 cmd.Parameters.AddWithValue("@tub_qty", o.tubQty);
                                 cmd.Parameters.AddWithValue("@pkt_dqty", o.PktQty);
 
-                                if (o.Status == "Pending")
-                                {
-                                    cmd = new MySqlCommand("Insert into pendingtransactions(Sno,Date,Delivered) values(@Sno,@Date,@Delivered)");
-                                    cmd.Parameters.AddWithValue("@Sno", o.hdnSno);
-                                    cmd.Parameters.AddWithValue("@Date", ServerDateCurrentdate);
-                                    cmd.Parameters.AddWithValue("@Delivered", Returnqty);
-                                    vdm.insert(cmd);
-                                }
+                                //if (o.Status == "Pending")
+                                //{
+                                //    cmd = new MySqlCommand("Insert into pendingtransactions(Sno,Date,Delivered) values(@Sno,@Date,@Delivered)");
+                                //    cmd.Parameters.AddWithValue("@Sno", o.hdnSno);
+                                //    cmd.Parameters.AddWithValue("@Date", ServerDateCurrentdate);
+                                //    cmd.Parameters.AddWithValue("@Delivered", Returnqty);
+                                //    vdm.insert(cmd);
+                                //}
                                 cmd.Parameters.AddWithValue("@DelTime", ServerDateCurrentdate);
                                 cmd.Parameters.AddWithValue("@D_date", ServerDateCurrentdate);
                                 vdm.Update(cmd);
