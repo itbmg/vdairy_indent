@@ -7752,6 +7752,10 @@
                 vdm = new VehicleDBMgr();
                 var js = new JavaScriptSerializer();
                 List<string> MsgList = new List<string>();
+                var title1 = context.Request.Params[1];
+                invcollectionsave obj = js.Deserialize<invcollectionsave>(title1);
+                string b_bid = obj.BranchID;
+                string btnvalue = obj.btnvalue;
                 if (context.Session["userdata_sno"] == null)
                 {
                     string errmsg = "Session Expired";
@@ -7760,10 +7764,7 @@
                 }
                 else
                 {
-                    var title1 = context.Request.Params[1];
-                    invcollectionsave obj = js.Deserialize<invcollectionsave>(title1);
-                    string b_bid = obj.BranchID;
-                    string btnvalue = obj.btnvalue;
+                    
                     DateTime ServerDateCurrentdate = VehicleDBMgr.GetTime(vdm.conn);
                     string dateval = context.Session["I_Date"].ToString();
                     string Username = context.Session["userdata_sno"].ToString();
@@ -8063,6 +8064,47 @@
                         else
                         {
 
+                        }
+                    }
+                }
+
+
+                if (context.Session["BranchSno"].ToString() == "7")
+                {
+
+                    cmd = new MySqlCommand("SELECT sno, BranchName, phonenumber FROM branchdata WHERE (sno = @BranchID)");
+                    cmd.Parameters.AddWithValue("@BranchID", b_bid);
+                    DataTable dtBranch = vdm.SelectQuery(cmd).Tables[0];
+                    if (dtBranch.Rows.Count > 0)
+                    {
+                        string BranchName = dtBranch.Rows[0]["BranchName"].ToString();
+                        string phonenumber = dtBranch.Rows[0]["phonenumber"].ToString();
+                        //string phonenumber = "7013732814";//dtBranch.Rows[0]["phonenumber"].ToString();
+                        string Agentid = dtBranch.Rows[0]["sno"].ToString();
+                        if (phonenumber.Length == 10)
+                        {
+                            cmd = new MySqlCommand("select inv_sno,opp_balance,issued,received,clo_balance,inddate from agent_inv_bal_trans where agentid=@BranchID and inv_sno=@inv_sno  ORDER BY sno DESC Limit 1");
+                            cmd.Parameters.AddWithValue("@BranchID", Agentid); 
+                            cmd.Parameters.AddWithValue("@inv_sno", "1"); 
+                             DataTable dtAgentInv = vdm.SelectQuery(cmd).Tables[0];
+                            string opp = "0"; string iss = "0"; string recev = "0"; string clo = "0";
+                            if (dtAgentInv.Rows.Count > 0)
+                            {
+                                opp = dtAgentInv.Rows[0]["opp_balance"].ToString();
+                                iss = dtAgentInv.Rows[0]["issued"].ToString();
+                                recev = dtAgentInv.Rows[0]["received"].ToString();
+                                clo = dtAgentInv.Rows[0]["clo_balance"].ToString();
+                            }
+                            string Date = DateTime.Now.ToString("dd/MM/yyyy");
+                            string BranchSno = context.Session["CsoNo"].ToString();
+                            //phonenumber = "7013732814";
+                            WebClient client = new WebClient();
+                            string baseurl = "http://www.smsstriker.com/API/sms.php?username=vaishnavidairy&password=Vys@2021&from=VYSSAL&to=" + phonenumber + "&msg=Dear%20" + BranchName + "%20,Your%20Inventory%20Balance,%20date%20" + Date + ",%20Crates:%20opp-" + opp + ",%20issued-%20" + iss + ",%20received-%20" + recev + ",%20closing-" + clo + "vyshnavi dairy&type = 1&template_id=1407171696204994974";
+                            Stream data = client.OpenRead(baseurl);
+                            StreamReader reader = new StreamReader(data);
+                            string ResponseID = reader.ReadToEnd();
+                            data.Close();
+                            reader.Close();
                         }
                     }
                 }
@@ -8834,51 +8876,7 @@
                                 }
                             }
                         }
-                        //if (dtDelivers != null)
-                        //{
-                        //    foreach (DataRow dr in dtDelivers.Select("Product_sno='" + o.Productsno + "'"))
-                        //    {
-                        //    //    foreach (DataRow dr in dtDelivers.Rows)
-                        //    //{
-                        //        string Prodsno = dr["Product_sno"].ToString();
-                        //        string Psno = o.Productsno;
-                        //        if (Prodsno == Psno)
-                        //        {
-                        //            float Aqty = 0;
-                        //            float.TryParse(dr["unitQty"].ToString(), out Aqty);
-                        //            float Eqty = 0;
-                        //            float.TryParse(o.ReturnQty, out Eqty);
-                        //            float Lqty = 0;
-                        //            float.TryParse(o.LeakQty, out Lqty);
-                        //            float TQty = Eqty + Lqty;
-                        //            //if (Aqty != Eqty)
-                        //            //{
-                        //            //    cmd = new MySqlCommand("Update  EditedDelivery set Prodsno=@Prodsno,DEntryTime=@DEntryTime,DeliveryQty=@DeliveryQty,DEditQty=@DEditQty where BranchID=@BranchID and IndentNo=@IndentNo");
-                        //            //    int IndentNo = 0;
-                        //            //    int.TryParse(o.IndentNo, out IndentNo);
-                        //            //    cmd.Parameters.AddWithValue("@IndentNo", IndentNo);
-                        //            //    cmd.Parameters.AddWithValue("@Prodsno", o.Productsno);
-                        //            //    cmd.Parameters.AddWithValue("@BranchID", b_bid);
-                        //            //    cmd.Parameters.AddWithValue("@DEntryTime", ServerDateCurrentdate);
-                        //            //    cmd.Parameters.AddWithValue("@DeliveryQty", Aqty);
-                        //            //    cmd.Parameters.AddWithValue("@DEditQty", Eqty);
-                        //            //    if (vdm.Update(cmd) == 0)
-                        //            //    {
-                        //            //        cmd = new MySqlCommand("insert into EditedDelivery (IndentNo,Prodsno,BranchID,DEntryTime,DeliveryQty,DEditQty)values(@IndentNo,@Prodsno,@BranchID,@DEntryTime,@DeliveryQty,@DEditQty)");
-                        //            //        cmd.Parameters.AddWithValue("@IndentNo", IndentNo);
-                        //            //        cmd.Parameters.AddWithValue("@Prodsno", o.Productsno);
-                        //            //        cmd.Parameters.AddWithValue("@BranchID", b_bid);
-                        //            //        cmd.Parameters.AddWithValue("@DEntryTime", ServerDateCurrentdate);
-                        //            //        float.TryParse(dr["unitQty"].ToString(), out Aqty);
-                        //            //        cmd.Parameters.AddWithValue("@DeliveryQty", Aqty);
-                        //            //        //float.TryParse(o.ReturnQty, out Eqty);
-                        //            //        cmd.Parameters.AddWithValue("@DEditQty", Eqty);
-                        //            //        vdm.insert(cmd);
-                        //            //    }
-                        //            //}
-                        //        }
-                        //    }
-                        //}
+                        
                         cmd = new MySqlCommand("update tripsubdata set DeliverQty=DeliverQty+@DeliverQty where ProductId=@ProductId and Tripdata_sno=@Tripdata_sno");
                         float deliverQty = 0;
                         float.TryParse(o.ReturnQty, out deliverQty);
