@@ -6401,7 +6401,7 @@
                     }
                     //getOrderValue.Rate = (float)Rate;
                     GetProduct.UnitPrice = TotalRate.ToString();
-					//GetProduct.orderunitRate = (float)TotalRate; instead this line added above line
+                    GetProduct.orderunitRate = (float)actualrate;
                     ProductList.Add(GetProduct);
                     string response = GetJson(ProductList);
                     context.Response.Write(response);
