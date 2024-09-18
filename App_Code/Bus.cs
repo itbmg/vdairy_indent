@@ -6323,7 +6323,7 @@
                 cmd.Parameters.AddWithValue("@sno", Sno);
                 cmd.Parameters.AddWithValue("@BranchID", BranchID);
                 DataTable dtBranchProduct = vdm.SelectQuery(cmd).Tables[0];
-                string AunitPrice = "0";string Adiscountprice = "0";
+                string AunitPrice = "0"; string Adiscountprice = "0";
                 if (dtBranchProduct.Rows.Count > 0)
                 {
                     AunitPrice = dtBranchProduct.Rows[0]["unitprice"].ToString();
@@ -6336,14 +6336,14 @@
                     cmd.Parameters.AddWithValue("@BranchID", BranchID);
                     DataTable dtProduct = vdm.SelectQuery(cmd).Tables[0];
                     ProductUnit GetProduct = new ProductUnit();
-					//GetProduct.UnitPrice = dtProduct.Rows[0]["UnitPrice"].ToString();
+                    //GetProduct.UnitPrice = dtProduct.Rows[0]["UnitPrice"].ToString();
                     GetProduct.orderunitRate = (float)dtProduct.Rows[0]["UnitPrice"];
                     GetProduct.Unitqty = dtProduct.Rows[0]["Qty"].ToString();
                     GetProduct.Units = dtProduct.Rows[0]["Units"].ToString();
                     GetProduct.invqty = dtProduct.Rows[0]["invqty"].ToString();
                     string BranchUnitPrice = dtProduct.Rows[0]["BUnitPrice"].ToString();
                     string BDiscountPrice = dtProduct.Rows[0]["BDiscountPrice"].ToString();
-                    double Rate = 0;double discountprice = 0;
+                    double Rate = 0; double discountprice = 0;
                     double perltrCost = 0;
                     if (BDiscountPrice != "0")
                     {
@@ -6351,7 +6351,7 @@
                     }
                     else
                     {
-                       // Rate = (float)dtProduct.Rows[0]["UnitPrice"];
+                        // Rate = (float)dtProduct.Rows[0]["UnitPrice"];
                     }
                     if (BranchUnitPrice != "0")
                     {
@@ -6363,27 +6363,39 @@
                     }
                     //float Rate = (float)dtProduct.Rows[0]["UnitPrice"];
                     float Unitqty = (float)dtProduct.Rows[0]["Qty"];
-					 //float TotalRate = 0;
+                    //float TotalRate = 0;
                     double TotalRate = 0;
                     double actualrate = 0;
                     actualrate = Rate - discountprice;
 
                     TotalRate = actualrate;
-                    //if (dtProduct.Rows[0]["Units"].ToString() == "ml")
+
+
+
+
+                    //if (context.Session["Permissions"].ToString() == "O")
+                    //{
+                    double unitprice1 = 0;
+                    double.TryParse(dtProduct.Rows[0]["BUnitPrice"].ToString(), out unitprice1);
+                    double discountprice1 = 0;
+                    double.TryParse(dtProduct.Rows[0]["BDiscountPrice"].ToString(), out discountprice1);
+                    double actualrate1 = 0;
+                    actualrate = unitprice1 - discountprice1;
+                    //TotalRate = actualrate1;
+
+                    double UOMQty = 0;
+                    double.TryParse(dtProduct.Rows[0]["Qty"].ToString(), out UOMQty);
+
+                    perltrCost = (1000 / UOMQty) * actualrate;
+                    perltrCost = Math.Round(perltrCost, 2);
+                    //Rate = perltrCost;
+                    //}
+                    //else
                     //{
                     //    TotalRate = Rate;
                     //}
-                    //if (dtProduct.Rows[0]["Units"].ToString() == "ltr")
-                    //{
-                    //    TotalRate = Rate;
-                    //}
-                    //if (dtProduct.Rows[0]["Units"].ToString() == "gms")
-                    //{
-                    //}
-                    //if (dtProduct.Rows[0]["Units"].ToString() == "kgs")
-                    //{
-                    //    TotalRate = Rate;
-                    //}
+
+
                     if (dtProduct.Rows[0]["Units"].ToString() == "ml" || dtProduct.Rows[0]["Units"].ToString() == "ltr")
                     {
                         GetProduct.Desciption = "Ltrs";
@@ -6399,9 +6411,18 @@
                             GetProduct.Desciption = "Kgs";
                         }
                     }
-                    //getOrderValue.Rate = (float)Rate;
-                    GetProduct.UnitPrice = TotalRate.ToString();
-                    GetProduct.orderunitRate = (float)actualrate;
+
+                    if (context.Session["Permissions"].ToString() == "O")
+                    {
+                        GetProduct.UnitPrice = actualrate.ToString();
+                        GetProduct.orderunitRate = (float)perltrCost;
+                    }
+                    else
+                    {
+                        GetProduct.UnitPrice = perltrCost.ToString();
+                        GetProduct.orderunitRate = (float)actualrate;
+                    }
+
                     ProductList.Add(GetProduct);
                     string response = GetJson(ProductList);
                     context.Response.Write(response);
@@ -6411,7 +6432,10 @@
                     ProductUnit GetProduct = new ProductUnit();
                     GetProduct.Unitqty = dtBranchProduct.Rows[0]["Qty"].ToString();
                     GetProduct.Units = dtBranchProduct.Rows[0]["Units"].ToString();
-                    GetProduct.discountprice = (float)dtBranchProduct.Rows[0]["discountprice"];
+                    float discountprice = 0;
+                    float.TryParse(dtBranchProduct.Rows[0]["discountprice"].ToString(), out discountprice);
+
+                    GetProduct.discountprice = discountprice;
 
                     //added by akbar converting pktrate to ltrcost 27-03-2023
                     double perltrCost = 0;
@@ -6420,8 +6444,6 @@
                     double unitprice = 0;
                     double.TryParse(dtBranchProduct.Rows[0]["UnitPrice"].ToString(), out unitprice);
 
-                    double discountprice = 0;
-                    double.TryParse(dtBranchProduct.Rows[0]["discountprice"].ToString(), out discountprice);
 
                     double actualrate = 0;
                     actualrate = unitprice - discountprice;
@@ -6454,13 +6476,13 @@
                     {
                         TotalRate = Rate;
                     }
-				    //float Rate = (float)dtBranchProduct.Rows[0]["UnitPrice"]; //instead of thes line above lines are added
+                    //float Rate = (float)dtBranchProduct.Rows[0]["UnitPrice"]; //instead of thes line above lines are added
                     //float Unitqty = (float)dtBranchProduct.Rows[0]["Qty"];
                     //GetProduct.invqty = dtBranchProduct.Rows[0]["invqty"].ToString();
                     //float TotalRate = 0;
                     //TotalRate = Rate; 
-				   
-				   
+
+
                     if (dtBranchProduct.Rows[0]["Units"].ToString() == "ml" || dtBranchProduct.Rows[0]["Units"].ToString() == "ltr")
                     {
                         GetProduct.Desciption = "Ltrs";
@@ -6478,7 +6500,7 @@
                     }
                     //getOrderValue.Rate = (float)Rate;
                     GetProduct.UnitPrice = TotalRate.ToString();
-					//GetProduct.orderunitRate = (float)TotalRate; instead of this line above line added
+                    //GetProduct.orderunitRate = (float)TotalRate; instead of this line above line added
                     ProductList.Add(GetProduct);
                     string response = GetJson(ProductList);
                     context.Response.Write(response);
