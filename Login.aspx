@@ -81,7 +81,7 @@
     <asp:UpdatePanel ID="updbusBook" runat="server">
         <ContentTemplate>
             <div class="title" style="text-align: center; width: 100%;">
-                <img src="Images/Vyshnavilogo.png" />
+                <img src="Images/Vyshnavilogo.png" width="300px" height="240px"/>
                 <br />
                 <span>Powered by Vyshnavi Dairy</span>
                 <br />
